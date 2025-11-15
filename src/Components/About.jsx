@@ -19,7 +19,7 @@ function About() {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-6 mb-10">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white px-6 mb-10" id="about-section">
       <div className="text-center mt-24">
         {/* Pyramid Heading */}
         <h1 className="text-7xl font-bold text-black leading-none">

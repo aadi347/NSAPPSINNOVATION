@@ -152,7 +152,7 @@ const ContactSection = () => {
   return (
     <section 
       ref={sectionRef}
-      className="relative min-h-screen bg-white overflow-hidden z-10"
+      className="relative min-h-screen bg-white overflow-hidden z-10" 
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">

@@ -1,348 +1,538 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Camera, Mesh, Plane, Program, Renderer, Texture, Transform } from 'ogl';
 
 gsap.registerPlugin(ScrollTrigger);
 
+function lerp(p1, p2, t) {
+  return p1 + (p2 - p1) * t;
+}
+
+function debounce(func, wait) {
+  let timeout;
+  return function (...args) {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+}
+
+function createTextTexture(gl, text, font = 'bold 20px sans-serif', color = '#000000') {
+  const canvas = document.createElement('canvas');
+  const context = canvas.getContext('2d');
+  context.font = font;
+  const metrics = context.measureText(text);
+  const textWidth = Math.ceil(metrics.width);
+  const textHeight = Math.ceil(parseInt(font, 10) * 1.4);
+  canvas.width = textWidth + 60;
+  canvas.height = textHeight + 40;
+  context.font = font;
+  context.fillStyle = color;
+  context.textBaseline = 'middle';
+  context.textAlign = 'center';
+  context.fillText(text, canvas.width / 2, canvas.height / 2);
+  const texture = new Texture(gl, { generateMipmaps: false });
+  texture.image = canvas;
+  return { texture, width: canvas.width, height: canvas.height };
+}
+
+class Title {
+  constructor({ gl, plane, text, textColor = '#000000', font = 'bold 20px sans-serif' }) {
+    this.gl = gl;
+    this.plane = plane;
+    this.text = text;
+    this.textColor = textColor;
+    this.font = font;
+    this.createMesh();
+  }
+
+  createMesh() {
+    const { texture, width, height } = createTextTexture(this.gl, this.text, this.font, this.textColor);
+    const geometry = new Plane(this.gl);
+    const program = new Program(this.gl, {
+      vertex: `
+        attribute vec3 position;
+        attribute vec2 uv;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+        }
+      `,
+      fragment: `
+        precision highp float;
+        uniform sampler2D tMap;
+        varying vec2 vUv;
+        void main() {
+          vec4 color = texture2D(tMap, vUv);
+          if (color.a < 0.1) discard;
+          gl_FragColor = color;
+        }
+      `,
+      uniforms: { tMap: { value: texture } },
+      transparent: true
+    });
+    this.mesh = new Mesh(this.gl, { geometry, program });
+    const aspect = width / height;
+    const textHeight = this.plane.scale.y * 0.15;
+    const textWidth = textHeight * aspect;
+    this.mesh.scale.set(textWidth, textHeight, 1);
+    this.mesh.position.y = -this.plane.scale.y * 0.5 - textHeight * 0.8;
+    this.mesh.setParent(this.plane);
+  }
+}
+
+class ProjectCard {
+  constructor({ geometry, gl, image, index, length, scene, screen, text, viewport }) {
+    this.extra = 0;
+    this.geometry = geometry;
+    this.gl = gl;
+    this.image = image;
+    this.index = index;
+    this.length = length;
+    this.scene = scene;
+    this.screen = screen;
+    this.text = text;
+    this.viewport = viewport;
+    this.createShader();
+    this.createMesh();
+    this.createTitle();
+    this.onResize();
+  }
+
+  createShader() {
+    const texture = new Texture(this.gl, { generateMipmaps: true });
+    
+    this.program = new Program(this.gl, {
+      vertex: `
+        precision highp float;
+        attribute vec3 position;
+        attribute vec2 uv;
+        uniform mat4 modelViewMatrix;
+        uniform mat4 projectionMatrix;
+        uniform float uTime;
+        uniform float uSpeed;
+        varying vec2 vUv;
+        void main() {
+          vUv = uv;
+          vec3 p = position;
+          p.z = (sin(p.x * 2.5 + uTime) * 0.8 + cos(p.y * 2.0 + uTime) * 0.8) * (0.06 + uSpeed * 0.3);
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(p, 1.0);
+        }
+      `,
+      fragment: `
+        precision highp float;
+        uniform vec2 uImageSizes;
+        uniform vec2 uPlaneSizes;
+        uniform sampler2D tMap;
+        uniform float uBorderRadius;
+        varying vec2 vUv;
+        
+        float roundedBoxSDF(vec2 p, vec2 b, float r) {
+          vec2 d = abs(p) - b;
+          return length(max(d, vec2(0.0))) + min(max(d.x, d.y), 0.0) - r;
+        }
+        
+        void main() {
+          vec2 ratio = vec2(
+            min((uPlaneSizes.x / uPlaneSizes.y) / (uImageSizes.x / uImageSizes.y), 1.0),
+            min((uPlaneSizes.y / uPlaneSizes.x) / (uImageSizes.y / uImageSizes.x), 1.0)
+          );
+          vec2 uv = vec2(
+            vUv.x * ratio.x + (1.0 - ratio.x) * 0.5,
+            vUv.y * ratio.y + (1.0 - ratio.y) * 0.5
+          );
+          vec4 texColor = texture2D(tMap, uv);
+          
+          float d = roundedBoxSDF(vUv - 0.5, vec2(0.5 - uBorderRadius), uBorderRadius);
+          float edgeSmooth = 0.002;
+          float alpha = 1.0 - smoothstep(-edgeSmooth, edgeSmooth, d);
+          
+          gl_FragColor = vec4(texColor.rgb, texColor.a * alpha);
+        }
+      `,
+      uniforms: {
+        tMap: { value: texture },
+        uPlaneSizes: { value: [0, 0] },
+        uImageSizes: { value: [1, 1] },
+        uSpeed: { value: 0 },
+        uTime: { value: Math.random() * 100 },
+        uBorderRadius: { value: 0.05 }
+      },
+      transparent: true
+    });
+
+    // Load image
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.src = this.image;
+    img.onload = () => {
+      texture.image = img;
+      this.program.uniforms.uImageSizes.value = [img.naturalWidth, img.naturalHeight];
+      console.log(`Image loaded: ${this.text}`, img.width, img.height);
+    };
+    img.onerror = () => {
+      console.error(`Failed to load image: ${this.image}`);
+    };
+  }
+
+  createMesh() {
+    this.plane = new Mesh(this.gl, {
+      geometry: this.geometry,
+      program: this.program
+    });
+    this.plane.setParent(this.scene);
+  }
+
+  createTitle() {
+    this.title = new Title({
+      gl: this.gl,
+      plane: this.plane,
+      text: this.text,
+      textColor: '#000000',
+      font: 'bold 18px sans-serif'
+    });
+  }
+
+  update(scroll, direction) {
+    this.plane.position.x = this.x - scroll.current - this.extra;
+
+    const x = this.plane.position.x;
+    const H = this.viewport.width / 2;
+    const bend = 1.2;
+    const B_abs = Math.abs(bend);
+    const R = (H * H + B_abs * B_abs) / (2 * B_abs);
+    const effectiveX = Math.min(Math.abs(x), H);
+    const arc = R - Math.sqrt(Math.max(0, R * R - effectiveX * effectiveX));
+    
+    this.plane.position.y = -arc;
+    this.plane.rotation.z = -Math.sign(x) * Math.asin(Math.min(effectiveX / R, 1));
+
+    this.speed = scroll.current - scroll.last;
+    this.program.uniforms.uTime.value += 0.025;
+    this.program.uniforms.uSpeed.value = Math.abs(this.speed);
+
+    const planeOffset = this.plane.scale.x / 2;
+    const viewportOffset = this.viewport.width / 2;
+    this.isBefore = this.plane.position.x + planeOffset < -viewportOffset;
+    this.isAfter = this.plane.position.x - planeOffset > viewportOffset;
+    
+    if (direction === 'right' && this.isBefore) {
+      this.extra -= this.widthTotal;
+    }
+    if (direction === 'left' && this.isAfter) {
+      this.extra += this.widthTotal;
+    }
+  }
+
+  onResize({ screen, viewport } = {}) {
+    if (screen) this.screen = screen;
+    if (viewport) this.viewport = viewport;
+    
+    this.scale = this.screen.height / 1000;
+    this.plane.scale.y = (this.viewport.height * (700 * this.scale)) / this.screen.height;
+    this.plane.scale.x = (this.viewport.width * (550 * this.scale)) / this.screen.width;
+    this.plane.program.uniforms.uPlaneSizes.value = [this.plane.scale.x, this.plane.scale.y];
+    
+    this.padding = 1.5;
+    this.width = this.plane.scale.x + this.padding;
+    this.widthTotal = this.width * this.length;
+    this.x = this.width * this.index;
+    
+    console.log(`Card ${this.index} resized:`, {
+      scale: this.plane.scale,
+      position: this.x
+    });
+  }
+}
+
 const ProjectSection = () => {
   const containerRef = useRef(null);
-  const cylinderRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [activeTab, setActiveTab] = useState('product'); // 'product' or 'service'
-  const rotateTimelineRef = useRef(null);
+  const canvasContainerRef = useRef(null);
+  const [activeTab, setActiveTab] = useState('product');
+  const appRef = useRef(null);
 
   const projectData = {
     product: [
       {
         title: "VENDOR DASHBOARD",
-        category: "PRODUCT",
-        stat: "100%",
-        statLabel: "streamlined operations",
-        description: "Complete vendor management system with intuitive UI and powerful analytics for business growth.",
-        color: "#a92b4e"
+        image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&h=600&fit=crop"
       },
       {
         title: "NS APPS MOBILE",
-        category: "PRODUCT",
-        stat: "50K+",
-        statLabel: "active users",
-        description: "Android application providing seamless user experience with modern design patterns.",
-        color: "#7B9FFF"
+        image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=600&fit=crop"
       },
       {
         title: "ANALYTICS PLATFORM",
-        category: "PRODUCT",
-        stat: "Real-time",
-        statLabel: "data visualization",
-        description: "Comprehensive analytics dashboard with live metrics and customizable reporting.",
-        color: "#9FE870"
+        image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=600&fit=crop"
       },
       {
         title: "E-COMMERCE SUITE",
-        category: "PRODUCT",
-        stat: "24/7",
-        statLabel: "automated processing",
-        description: "Full-featured online store with inventory management and payment integration.",
-        color: "#FFB87B"
+        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=600&fit=crop"
       },
       {
         title: "CRM SYSTEM",
-        category: "PRODUCT",
-        stat: "360°",
-        statLabel: "customer view",
-        description: "Manage customer relationships with automated workflows and communication tools.",
-        color: "#FF7B7B"
+        image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop"
       },
       {
         title: "PROJECT TRACKER",
-        category: "PRODUCT",
-        stat: "AI-powered",
-        statLabel: "task management",
-        description: "Intelligent project management tool with team collaboration features.",
-        color: "#B87BFF"
+        image: "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?w=800&h=600&fit=crop"
       }
     ],
     service: [
       {
         title: "WEB DEVELOPMENT",
-        category: "SERVICE",
-        stat: "25+",
-        statLabel: "projects delivered",
-        description: "Custom web applications built with React, Node.js, and modern tech stack.",
-        color: "#a92b4e"
+        image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&h=600&fit=crop"
       },
       {
         title: "UI/UX DESIGN",
-        category: "SERVICE",
-        stat: "100%",
-        statLabel: "client satisfaction",
-        description: "Creating beautiful, intuitive interfaces that users love to interact with.",
-        color: "#9FE870"
+        image: "https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=600&fit=crop"
       },
       {
         title: "BRAND IDENTITY",
-        category: "SERVICE",
-        stat: "360°",
-        statLabel: "brand solutions",
-        description: "Complete brand development from logo design to visual identity systems.",
-        color: "#7B9FFF"
+        image: "https://images.unsplash.com/photo-1558655146-9f40138edfeb?w=800&h=600&fit=crop"
       },
       {
         title: "DIGITAL MARKETING",
-        category: "SERVICE",
-        stat: "3x",
-        statLabel: "average growth rate",
-        description: "Data-driven marketing strategies to boost your online presence.",
-        color: "#FFB87B"
+        image: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=800&h=600&fit=crop"
       },
       {
         title: "CONSULTING",
-        category: "SERVICE",
-        stat: "Expert",
-        statLabel: "technical guidance",
-        description: "Strategic technology consulting to scale your digital infrastructure.",
-        color: "#B87BFF"
+        image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?w=800&h=600&fit=crop"
       },
       {
         title: "MAINTENANCE",
-        category: "SERVICE",
-        stat: "24/7",
-        statLabel: "support available",
-        description: "Ongoing support and maintenance to keep your applications running smoothly.",
-        color: "#FF7B7B"
+        image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?w=800&h=600&fit=crop"
       }
     ]
   };
 
-  const currentProjects = projectData[activeTab];
+  useEffect(() => {
+    if (!canvasContainerRef.current) return;
 
-  const initializeCylinder = () => {
-    const radius = 800;
-    const angleStep = (2 * Math.PI) / currentProjects.length;
-    const cards = cylinderRef.current?.querySelectorAll('.project-card');
+    class WebGLCarousel {
+      constructor(container, items) {
+        this.container = container;
+        this.items = items;
+        this.scroll = { ease: 0.08, current: 0, target: 0, last: 0 };
+        this.onCheckDebounce = debounce(this.onCheck.bind(this), 200);
+        this.init();
+      }
 
-    if (!cards) return;
+      init() {
+        this.createRenderer();
+        this.createCamera();
+        this.createScene();
+        this.onResize();
+        this.createGeometry();
+        this.createCards();
+        this.update();
+        this.addEventListeners();
+        console.log('WebGL Carousel initialized');
+      }
 
-    // Position cards in a cylinder
-    cards.forEach((card, index) => {
-      const angle = angleStep * index;
-      const x = Math.sin(angle) * radius;
-      const z = Math.cos(angle) * radius;
-      const rotateY = -angle * (180 / Math.PI);
+      createRenderer() {
+        this.renderer = new Renderer({
+          alpha: false,
+          antialias: true,
+          dpr: Math.min(window.devicePixelRatio, 2)
+        });
+        this.gl = this.renderer.gl;
+        this.gl.clearColor(0.96, 0.96, 0.96, 1);
+        
+        this.gl.canvas.style.width = '100%';
+        this.gl.canvas.style.height = '100%';
+        this.gl.canvas.style.display = 'block';
+        
+        this.container.appendChild(this.gl.canvas);
+        console.log('Renderer created', this.gl.canvas.width, this.gl.canvas.height);
+      }
 
-      gsap.set(card, {
-        x,
-        z,
-        rotateY,
-        transformOrigin: 'center center',
-        opacity: 1
-      });
-    });
+      createCamera() {
+        this.camera = new Camera(this.gl);
+        this.camera.fov = 45;
+        this.camera.position.z = 10;
+        console.log('Camera created at z:', this.camera.position.z);
+      }
 
-    // Kill existing timeline
-    if (rotateTimelineRef.current) {
-      rotateTimelineRef.current.kill();
+      createScene() {
+        this.scene = new Transform();
+      }
+
+      createGeometry() {
+        this.planeGeometry = new Plane(this.gl, {
+          heightSegments: 30,
+          widthSegments: 60
+        });
+      }
+
+      createCards() {
+        const galleryItems = this.items.concat(this.items);
+        this.cards = galleryItems.map((data, index) => {
+          return new ProjectCard({
+            geometry: this.planeGeometry,
+            gl: this.gl,
+            image: data.image,
+            index,
+            length: galleryItems.length,
+            scene: this.scene,
+            screen: this.screen,
+            text: data.title,
+            viewport: this.viewport
+          });
+        });
+        console.log(`Created ${this.cards.length} cards`);
+      }
+
+      onTouchDown(e) {
+        this.isDown = true;
+        this.scroll.position = this.scroll.current;
+        this.start = e.touches ? e.touches[0].clientX : e.clientX;
+      }
+
+      onTouchMove(e) {
+        if (!this.isDown) return;
+        const x = e.touches ? e.touches[0].clientX : e.clientX;
+        const distance = (this.start - x) * 0.04;
+        this.scroll.target = this.scroll.position + distance;
+      }
+
+      onTouchUp() {
+        this.isDown = false;
+        this.onCheck();
+      }
+
+      onWheel(e) {
+        const delta = e.deltaY || e.wheelDelta;
+        this.scroll.target += (delta > 0 ? 1.5 : -1.5) * 0.2;
+        this.onCheckDebounce();
+      }
+
+      onCheck() {
+        if (!this.cards || !this.cards[0]) return;
+        const width = this.cards[0].width;
+        const itemIndex = Math.round(Math.abs(this.scroll.target) / width);
+        const item = width * itemIndex;
+        this.scroll.target = this.scroll.target < 0 ? -item : item;
+      }
+
+      onResize() {
+        this.screen = {
+          width: this.container.clientWidth,
+          height: this.container.clientHeight
+        };
+        this.renderer.setSize(this.screen.width, this.screen.height);
+        this.camera.perspective({ aspect: this.screen.width / this.screen.height });
+        
+        const fov = (this.camera.fov * Math.PI) / 180;
+        const height = 2 * Math.tan(fov / 2) * this.camera.position.z;
+        const width = height * this.camera.aspect;
+        this.viewport = { width, height };
+        
+        console.log('Viewport:', this.viewport);
+        
+        if (this.cards) {
+          this.cards.forEach(card => card.onResize({ screen: this.screen, viewport: this.viewport }));
+        }
+      }
+
+      update() {
+        this.scroll.current = lerp(this.scroll.current, this.scroll.target, this.scroll.ease);
+        const direction = this.scroll.current > this.scroll.last ? 'right' : 'left';
+        
+        if (this.cards) {
+          this.cards.forEach(card => card.update(this.scroll, direction));
+        }
+        
+        this.renderer.render({ scene: this.scene, camera: this.camera });
+        this.scroll.last = this.scroll.current;
+        this.raf = requestAnimationFrame(this.update.bind(this));
+      }
+
+      addEventListeners() {
+        this.boundOnResize = this.onResize.bind(this);
+        this.boundOnWheel = this.onWheel.bind(this);
+        this.boundOnTouchDown = this.onTouchDown.bind(this);
+        this.boundOnTouchMove = this.onTouchMove.bind(this);
+        this.boundOnTouchUp = this.onTouchUp.bind(this);
+        
+        window.addEventListener('resize', this.boundOnResize);
+        this.container.addEventListener('wheel', this.boundOnWheel);
+        this.container.addEventListener('mousedown', this.boundOnTouchDown);
+        this.container.addEventListener('mousemove', this.boundOnTouchMove);
+        this.container.addEventListener('mouseup', this.boundOnTouchUp);
+        this.container.addEventListener('touchstart', this.boundOnTouchDown, { passive: true });
+        this.container.addEventListener('touchmove', this.boundOnTouchMove, { passive: true });
+        this.container.addEventListener('touchend', this.boundOnTouchUp);
+      }
+
+      destroy() {
+        cancelAnimationFrame(this.raf);
+        window.removeEventListener('resize', this.boundOnResize);
+        this.container.removeEventListener('wheel', this.boundOnWheel);
+        this.container.removeEventListener('mousedown', this.boundOnTouchDown);
+        this.container.removeEventListener('mousemove', this.boundOnTouchMove);
+        this.container.removeEventListener('mouseup', this.boundOnTouchUp);
+        if (this.renderer && this.renderer.gl && this.renderer.gl.canvas.parentNode) {
+          this.renderer.gl.canvas.parentNode.removeChild(this.renderer.gl.canvas);
+        }
+        ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      }
     }
 
-    // Auto-rotate animation
-    rotateTimelineRef.current = gsap.timeline({ repeat: -1 });
-    rotateTimelineRef.current.to(cylinderRef.current, {
-      rotationY: 360,
-      duration: 30,
-      ease: 'none'
-    });
-
-    // Scroll trigger
-    ScrollTrigger.create({
-      trigger: containerRef.current,
-      start: 'top center',
-      end: 'bottom center',
-      onEnter: () => rotateTimelineRef.current?.play(),
-      onLeave: () => rotateTimelineRef.current?.pause(),
-      onEnterBack: () => rotateTimelineRef.current?.play(),
-      onLeaveBack: () => rotateTimelineRef.current?.pause()
-    });
-  };
-
-  useEffect(() => {
-    initializeCylinder();
+    appRef.current = new WebGLCarousel(canvasContainerRef.current, projectData[activeTab]);
 
     return () => {
-      if (rotateTimelineRef.current) {
-        rotateTimelineRef.current.kill();
+      if (appRef.current) {
+        appRef.current.destroy();
       }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
   }, [activeTab]);
 
-  const rotateToCard = (index) => {
-    const angleStep = (2 * Math.PI) / currentProjects.length;
-    const targetAngle = -index * angleStep * (180 / Math.PI);
-    
-    gsap.to(cylinderRef.current, {
-      rotationY: targetAngle,
-      duration: 1,
-      ease: 'power2.out'
-    });
-    
-    setActiveIndex(index);
-  };
-
-  const handleTabChange = (tab) => {
-    if (tab === activeTab) return;
-
-    // Fade out animation
-    const cards = cylinderRef.current?.querySelectorAll('.project-card');
-    gsap.to(cards, {
-      opacity: 0,
-      scale: 0.8,
-      duration: 0.3,
-      stagger: 0.05,
-      onComplete: () => {
-        setActiveTab(tab);
-        setActiveIndex(0);
-        // Fade in will happen automatically with new cards
-        gsap.fromTo(
-          cylinderRef.current?.querySelectorAll('.project-card'),
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1, duration: 0.5, stagger: 0.05 }
-        );
-      }
-    });
-  };
-
   return (
-    <section ref={containerRef} className="min-h-screen bg-black text-white py-20 overflow-hidden">
+    <section ref={containerRef} className="min-h-screen bg-white text-black py-20" id="projects-section">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="text-center mb-12">
-          <h2 className="text-5xl md:text-7xl font-bold mb-4">
-            Our Projects
-          </h2>
-          <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-            Explore our creative solutions and innovative digital experiences
+          <h2 className="text-5xl md:text-7xl font-bold mb-4">Our Projects</h2>
+          <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+            Explore our creative solutions with immersive WebGL effects
           </p>
         </div>
 
-        {/* Tab Buttons */}
         <div className="flex justify-center gap-4 mb-16">
           <button
-            onClick={() => handleTabChange('product')}
+            onClick={() => setActiveTab('product')}
             className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 ${
               activeTab === 'product'
-                ? 'bg-white text-black'
-                : 'bg-neutral-900 text-white border border-neutral-800 hover:border-neutral-600'
+                ? 'bg-black text-white'
+                : 'bg-gray-100 text-black border border-gray-300 hover:border-gray-400'
             }`}
           >
             Products
           </button>
           <button
-            onClick={() => handleTabChange('service')}
+            onClick={() => setActiveTab('service')}
             className={`px-8 py-4 rounded-full text-lg font-semibold transition-all duration-300 ${
               activeTab === 'service'
-                ? 'bg-white text-black'
-                : 'bg-neutral-900 text-white border border-neutral-800 hover:border-neutral-600'
+                ? 'bg-black text-white'
+                : 'bg-gray-100 text-black border border-gray-300 hover:border-gray-400'
             }`}
           >
             Services
           </button>
         </div>
 
-        {/* 3D Cylinder Container */}
-        <div className="relative h-[600px] flex items-center justify-center perspective-[2000px]">
-          <div 
-            ref={cylinderRef}
-            className="relative w-full h-full preserve-3d"
-            style={{ transformStyle: 'preserve-3d' }}
-          >
-            {currentProjects.map((project, index) => (
-              <div
-                key={`${activeTab}-${index}`}
-                className="project-card absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 cursor-pointer"
-                onClick={() => rotateToCard(index)}
-                style={{ transformStyle: 'preserve-3d' }}
-              >
-                <div className="w-[350px] h-[500px] bg-neutral-900 rounded-2xl p-8 border border-neutral-800 hover:border-neutral-700 transition-all duration-300 hover:shadow-2xl hover:shadow-white/5 hover:scale-105">
-                  {/* Category Badge */}
-                  <div 
-                    className="inline-block px-4 py-1 rounded-full text-sm font-semibold mb-6 text-black"
-                    style={{ backgroundColor: project.color }}
-                  >
-                    {project.category}
-                  </div>
+        <div 
+          ref={canvasContainerRef}
+          className="w-full h-[600px] cursor-grab active:cursor-grabbing rounded-2xl bg-gray-100 border-2 border-gray-300 shadow-xl overflow-hidden"
+        />
 
-                  {/* Project Title */}
-                  <h3 
-                    className="text-3xl font-bold mb-8"
-                    style={{ color: project.color }}
-                  >
-                    {project.title}
-                  </h3>
-
-                  {/* Stat */}
-                  <div className="mb-8">
-                    <div className="text-6xl font-bold mb-2">
-                      {project.stat}
-                    </div>
-                    <div className="text-sm text-gray-400">
-                      {project.statLabel}
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-gray-300 text-sm leading-relaxed mb-8">
-                    {project.description}
-                  </p>
-
-                  {/* View More Button */}
-                  <button 
-                    className="w-full py-3 px-6 rounded-full border border-neutral-700 hover:border-white hover:bg-white hover:text-black transition-all duration-300 font-semibold"
-                  >
-                    View {activeTab === 'product' ? 'Product' : 'Service'} →
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* "See More" Floating Button */}
-          <div className="absolute bottom-8 right-8">
-            <button className="w-32 h-32 rounded-full bg-white text-black flex flex-col items-center justify-center font-bold text-sm hover:scale-110 transition-transform duration-300 shadow-2xl">
-              <span>SEE MORE</span>
-              <span className="text-2xl mt-1">↓</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Navigation Dots */}
-        <div className="flex justify-center gap-3 mt-12">
-          {currentProjects.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => rotateToCard(index)}
-              className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                activeIndex === index 
-                  ? 'bg-white w-8' 
-                  : 'bg-neutral-700 hover:bg-neutral-500'
-              }`}
-            />
-          ))}
-        </div>
-
-        {/* Active Tab Indicator */}
         <div className="text-center mt-8 text-gray-500 text-sm">
-          Showing {currentProjects.length} {activeTab === 'product' ? 'Products' : 'Services'}
+          Drag or scroll to explore • {projectData[activeTab].length} {activeTab === 'product' ? 'Products' : 'Services'}
         </div>
       </div>
-
-      <style jsx>{`
-        .perspective-2000 {
-          perspective: 2000px;
-        }
-        .preserve-3d {
-          transform-style: preserve-3d;
-        }
-      `}</style>
     </section>
   );
 };

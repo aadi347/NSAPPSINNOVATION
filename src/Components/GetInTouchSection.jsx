@@ -142,7 +142,7 @@ const GetInTouchSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen bg-[#ffffff] overflow-hidden pt-24"
+      className="relative min-h-screen bg-[#ffffff] overflow-hidden pt-24" id="contact-section"
     >
       {/* Container for both text and image sections */}
       <div className="relative h-screen flex flex-col justify-between">

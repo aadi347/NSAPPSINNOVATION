@@ -245,7 +245,7 @@ const Team = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-10 mb-20 px-4" ref={containerRef}>
+    <div className="w-full max-w-5xl mx-auto py-10 mb-20 px-4" ref={containerRef} id="team-section">
       <div
         ref={ownerRef}
         className="flex items-center gap-7 pb-8 mb-8 border-b border-gray-300 transition-all duration-300 hover:border-gray-400"

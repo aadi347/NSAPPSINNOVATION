@@ -42,7 +42,7 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
   }, []);
 
   return (
-    <div ref={cardRef} className="relative mt-10">
+    <div ref={cardRef} className="relative mt-10" id="services-section"> 
       {/* Outer cutout layer */}
       <div className="flex justify-center div-cutout bg-black/40">
         {/* Inner cutout layer */}

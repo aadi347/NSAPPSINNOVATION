@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import Spline from "@splinetool/react-spline";
 import { ArrowRight } from "lucide-react";
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import ConnectPanel from "../Bttons/ConnectPanel";
 import PortfolioPanel from "../Bttons/PortfolioPanel";
 import "../App.css";
@@ -15,7 +15,41 @@ const Hero = () => {
   const openPortfolio = () => setIsPortfolioOpen(true);
   const closePortfolio = () => setIsPortfolioOpen(false);
 
-  // Animation variants
+  // Parallax scroll setup
+  const { scrollY } = useScroll();
+  const heroTextY = useTransform(scrollY, [0, 500], [0, -200]);
+  const topElementsY = useTransform(scrollY, [0, 500], [0, -80]);
+  const sideElementsY = useTransform(scrollY, [0, 500], [0, -50]);
+  const scrollIndicatorY = useTransform(scrollY, [0, 500], [0, -30]);
+  const opacity = useTransform(scrollY, [0, 300], [1, 0]);
+
+  const teamMembers = [
+    { id: 1, image: "/team/member1.jpg", name: "Team Member 1" },
+    { id: 2, image: "/team/member2.jpg", name: "Team Member 2" },
+    { id: 3, image: "/team/member3.jpg", name: "Team Member 3" }
+  ];
+
+  const scrollToTeamSection = () => {
+    const teamSection = document.getElementById('team-section');
+    if (teamSection) {
+      teamSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToNextSection = () => {
+    const nextSection = document.getElementById('services-section');
+    if (nextSection) {
+      nextSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  const scrollToGetInTouch = () => {
+    const getInTouchSection = document.getElementById('get-in-touch-section');
+    if (getInTouchSection) {
+      getInTouchSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const heroVariants = {
     normal: {
       x: 0,
@@ -57,7 +91,6 @@ const Hero = () => {
     }
   };
 
-  // Loading animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 30 },
     visible: (custom) => ({
@@ -84,29 +117,17 @@ const Hero = () => {
     })
   };
 
-  // Floating animation for decorative elements
-  const floatingAnimation = {
-    y: [-10, 10, -10],
-    transition: {
-      duration: 6,
-      repeat: Infinity,
-      ease: "easeInOut"
-    }
-  };
-
   const isAnyPanelOpen = isConnectOpen || isPortfolioOpen;
 
-  // Social media links
   const socialLinks = [
-    { icon: 'instagram', url: 'https://instagram.com', color: 'from-purple-600 to-pink-500' },
-    { icon: 'facebook', url: 'https://facebook.com', color: 'from-blue-600 to-blue-400' },
-    { icon: 'twitter', url: 'https://twitter.com', color: 'from-blue-400 to-blue-300' },
-    { icon: 'linkedin', url: 'https://linkedin.com', color: 'from-blue-700 to-blue-500' }
+    { icon: 'instagram', url: 'https://instagram.com' },
+    { icon: 'facebook', url: 'https://facebook.com' },
+    { icon: 'twitter', url: 'https://twitter.com' },
+    { icon: 'linkedin', url: 'https://linkedin.com' }
   ];
 
   return (
-    <div className="relative h-[100vh] w-full overflow-hidden z-[10]">
-      {/* Overlay */}
+    <div className="relative h-[100vh] w-full overflow-hidden z-[10]" id="hero-section">
       <AnimatePresence>
         {isAnyPanelOpen && (
           <motion.div
@@ -123,19 +144,71 @@ const Hero = () => {
         )}
       </AnimatePresence>
 
-      {/* Hero Section */}
       <motion.section
         className="relative w-full h-screen"
         variants={heroVariants}
         animate={isAnyPanelOpen ? 'shifted' : 'normal'}
         style={{ transformOrigin: 'center center' }}
       >
-        {/* Vertical Social Media Icons - Right Side - Changed to absolute */}
+        {/* Top Left - Logo */}
+        <motion.div
+          className="absolute top-5 left-12 z-[100]"
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          style={{ y: topElementsY, opacity }}
+        >
+          <img 
+            src="/texture.png" 
+            alt="NS Apps Innovations" 
+            className="h-10 w-auto md:h-14 drop-shadow-lg"
+          />
+        </motion.div>
+
+        {/* Top Right - Connect Button - NAVBAR STYLE */}
+        <motion.div
+          className="absolute top-8 right-8 z-[100]"
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.8 }}
+          style={{ y: topElementsY, opacity }}
+        >
+          <motion.button
+            onClick={scrollToGetInTouch}
+            className="relative group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            {/* Outer transparent layer with border */}
+            <div className="absolute inset-0 bg-white/5 backdrop-blur-md rounded-full border-2 border-white/30 shadow-[0_8px_32px_rgba(255,255,255,0.1)] group-hover:border-white/50 transition-all duration-300"></div>
+            
+            {/* Inner layer with white background */}
+            <div className="absolute inset-[4px] bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.1)] group-hover:bg-white/95 transition-all duration-300"></div>
+            
+            {/* Content */}
+            <span className="relative z-10 px-6 py-2.5 text-sm md:text-base font-semibold text-gray-900 flex items-center space-x-2">
+              <motion.svg 
+                className="w-4 h-4" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+                whileHover={{ rotate: 12 }}
+                transition={{ duration: 0.2 }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.102m0-3.839l.707-.707a4 4 0 105.656-5.656l-4 4z" />
+              </motion.svg>
+              <span>Connect</span>
+            </span>
+          </motion.button>
+        </motion.div>
+
+        {/* Vertical Social Media Icons */}
         <motion.div
           className="absolute right-8 bottom-32 z-[100] hidden lg:flex flex-col gap-4"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 1.5, duration: 0.8 }}
+          style={{ y: sideElementsY }}
         >
           {socialLinks.map((social, index) => (
             <motion.a
@@ -149,7 +222,6 @@ const Hero = () => {
               transition={{ delay: 1.8 + index * 0.1 }}
               whileHover={{ scale: 1.15, x: -5 }}
             >
-              {/* Glass morphism container */}
               <div className="relative w-12 h-12 bg-white/40 backdrop-blur-md rounded-full border border-white/50 shadow-[0_4px_16px_rgba(0,0,0,0.1)] flex items-center justify-center group-hover:bg-white/60 transition-all duration-300">
                 {social.icon === 'instagram' && (
                   <svg className="w-6 h-6 text-gray-700 group-hover:text-pink-600 transition-colors" fill="currentColor" viewBox="0 0 24 24">
@@ -173,7 +245,6 @@ const Hero = () => {
                 )}
               </div>
 
-              {/* Tooltip on hover */}
               <div className="absolute right-16 top-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                 <div className="bg-gray-900 text-white px-3 py-1 rounded-lg text-sm font-medium capitalize whitespace-nowrap">
                   {social.icon}
@@ -183,29 +254,62 @@ const Hero = () => {
           ))}
         </motion.div>
 
-        {/* Bottom Left - Team Avatar Stack - Only appears once */}
+        {/* Bottom Left - Team Avatar Stack */}
         <motion.div
           className="absolute bottom-32 left-16 z-20 hidden lg:block"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 2, duration: 0.8 }}
+          style={{ y: sideElementsY }}
         >
-          <motion.div 
-            className="bg-white/40 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)]"
-            animate={floatingAnimation}
+          <motion.button
+            onClick={scrollToTeamSection}
+            className="bg-white/40 backdrop-blur-md rounded-2xl p-4 border border-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] cursor-pointer group"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center gap-3">
               <div className="flex -space-x-2">
-                {[1, 2, 3].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gradient-to-br from-purple-400 to-pink-400"></div>
+                {teamMembers.map((member) => (
+                  <motion.div
+                    key={member.id}
+                    className="w-10 h-10 rounded-full border-2 border-white overflow-hidden bg-gray-200"
+                    whileHover={{ scale: 1.2, zIndex: 10 }}
+                    title={member.name}
+                  >
+                    <img 
+                      src={member.image} 
+                      alt={member.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.parentElement.style.background = 
+                          member.id === 1 ? 'linear-gradient(to bottom right, #c084fc, #ec4899)' :
+                          member.id === 2 ? 'linear-gradient(to bottom right, #a78bfa, #f472b6)' :
+                          'linear-gradient(to bottom right, #8b5cf6, #ec4899)';
+                      }}
+                    />
+                  </motion.div>
                 ))}
               </div>
               <div>
-                <p className="text-sm text-gray-800 font-semibold">Expert Team</p>
-                <p className="text-xs text-gray-600">15+ Developers</p>
+                <p className="text-sm text-gray-800 font-semibold group-hover:text-gray-900 transition-colors">
+                  Expert Team
+                </p>
+                <p className="text-xs text-gray-600 group-hover:text-gray-700 transition-colors">
+                  6+ Developers
+                </p>
               </div>
+              <svg 
+                className="w-5 h-5 text-gray-600 group-hover:text-gray-800 group-hover:translate-x-1 transition-all duration-300" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
             </div>
-          </motion.div>
+          </motion.button>
         </motion.div>
 
         {/* Floating Lightning Icon */}
@@ -226,12 +330,13 @@ const Hero = () => {
           </div>
         </motion.div>
 
-        {/* Center-Aligned Content Container */}
+        {/* Center Content */}
         <motion.div 
-          className="absolute top-5/8 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center max-w-4xl w-full px-8"
+          className="absolute top-7/11 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 flex flex-col items-center max-w-4xl w-full px-8"
           variants={textVariants}
           initial="hidden"
           animate="visible"
+          style={{ y: heroTextY, opacity }}
         >
           
           {/* Main Heading */}
@@ -242,116 +347,83 @@ const Hero = () => {
             animate="visible"
             custom={0}
           >
-            <PressureText text="NS APPS" className="text-6xl md:text-[10rem]" />
+            <PressureText text="NS APPS" className="text-7xl md:text-[11rem]" />
           </motion.div>
 
-          {/* Subheading with Video Icon */}
+          {/* Subheading */}
           <motion.div 
-            className="flex items-center justify-center space-x-4 mb-6"
+            className="flex items-center justify-center mb-5"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={1}
           >
-            <motion.div 
-              className="w-12 h-12 rounded-full bg-white/30 backdrop-blur-2xl border border-white/50 flex items-center justify-center overflow-hidden shadow-[0_4px_16px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.4)]"
-              variants={scaleIn}
-              initial="hidden"
-              animate="visible"
-              custom={1.2}
-            >
-              <video
-                className="w-14 h-14 object-contain rounded-full"
-                autoPlay
-                loop
-                muted
-                playsInline
-              >
-                <source src="/aa.webm" type="video/webm" />
-              </video>
-            </motion.div>
-            <PressureText text="INNOVATIONS" className="text-5xl md:text-7xl" />
+            <PressureText text="INNOVATIONS" className="text-6xl md:text-8xl" />
           </motion.div>
 
-          {/* Description Card with Frosted Glass */}
+          {/* Animated Scroll Down Indicator */}
           <motion.div
-            className="relative w-full max-w-xl mb-10"
-            variants={scaleIn}
-            initial="hidden"
-            animate="visible"
-            custom={2}
-          >
-            {/* Outer Transparent Layer with White Border */}
-            <div className="absolute inset-0 bg-transparent backdrop-blur-sm rounded-[32px] border-1 border-white shadow-[0_8px_32px_rgba(255,255,255,0.1)]"></div>
-            
-            {/* Inner White Solid Layer */}
-            <div className="absolute inset-[8px] bg-white/50 rounded-[28px] shadow-[0_4px_16px_rgba(0,0,0,0.08)]"></div>
-
-            {/* Content */}
-            <div className="relative p-6 text-center">
-              <p className="text-gray-500 text-base md:text-lg leading-relaxed font-medium">
-                NS Apps is an innovation-driven company delivering interactive, 
-                secure, and scalable digital solutions for your business.
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Buttons */}
-          <motion.div 
-            className="flex flex-wrap items-center justify-center gap-4"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
             custom={3}
+            onClick={scrollToNextSection}
+            className="cursor-pointer group mt-24"
+            style={{ y: scrollIndicatorY }}
           >
-            {/* Portfolio Button */}
-            <motion.button
-              onClick={openPortfolio}
-              className="relative group"
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.95 }}
+            <motion.div
+              className="flex flex-col items-center gap-2"
+              animate={{
+                y: [0, 10, 0],
+                transition: {
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }
+              }}
             >
-              {/* Outer Transparent Layer with White Border */}
-              <div className="absolute inset-0 bg-transparent backdrop-blur-sm rounded-full border-2 border-white/60 shadow-[0_8px_32px_rgba(255,255,255,0.1)] group-hover:border-white/80 group-hover:shadow-[0_12px_40px_rgba(255,255,255,0.2)] transition-all duration-300"></div>
-              
-              {/* Inner White Solid Layer */}
-              <div className="absolute inset-[4px] bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.08)] group-hover:bg-white/95 transition-all duration-300"></div>
-              
-              {/* Content */}
-              <span className="relative z-10 px-10 py-4 text-lg font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-300 flex items-center">
-                Portfolio
+              <span className="text-sm font-medium text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
+                Scroll to explore
               </span>
-            </motion.button>
-            
-            {/* Connect Button */}
-            <motion.button
-              onClick={openConnect}
-              className="relative group"
-              whileHover={{ scale: 1.05, y: -3 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {/* Outer Transparent Layer with White Border */}
-              <div className="absolute inset-0 bg-transparent backdrop-blur-sm rounded-full border-2 border-white/60 shadow-[0_8px_32px_rgba(255,255,255,0.1)] group-hover:border-white/80 group-hover:shadow-[0_12px_40px_rgba(255,255,255,0.2)] transition-all duration-300"></div>
-              
-              {/* Inner Black Solid Layer */}
-              <div className="absolute inset-[4px] bg-gray-900 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.2)] group-hover:bg-gray-800 transition-all duration-300"></div>
-              
-              {/* Content */}
-              <span className="relative z-10 px-10 py-4 text-lg font-semibold text-white transition-colors duration-300 flex items-center space-x-2">
-                <span>Connect</span>
-                <svg className="w-4 h-4 group-hover:rotate-12 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.102m0-3.839l.707-.707a4 4 0 105.656-5.656l-4 4z" />
-                </svg>
-              </span>
-            </motion.button>
+
+              <div className="relative w-6 h-10 border-2 border-gray-400 group-hover:border-gray-600 rounded-full flex items-start justify-center p-2 transition-colors duration-300">
+                <motion.div
+                  className="w-1.5 h-1.5 bg-gray-600 rounded-full"
+                  animate={{
+                    y: [0, 12, 0],
+                    transition: {
+                      duration: 1.5,
+                      repeat: Infinity,
+                      ease: "easeInOut"
+                    }
+                  }}
+                />
+              </div>
+
+              <motion.svg
+                className="w-5 h-5 text-gray-600 group-hover:text-gray-800 transition-colors duration-300"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                animate={{
+                  y: [0, 5, 0],
+                  transition: {
+                    duration: 2,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                    delay: 0.2
+                  }
+                }}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </motion.svg>
+            </motion.div>
           </motion.div>
         </motion.div>
 
-        {/* Keep your 3D Spline model intact */}
         <Spline scene="https://prod.spline.design/qBXYgDd7378mKcb0/scene.splinecode" />
       </motion.section>
 
-      {/* Panel Components */}
       <AnimatePresence>
         <ConnectPanel isOpen={isConnectOpen} onClose={closeConnect} />
         <PortfolioPanel isOpen={isPortfolioOpen} onClose={closePortfolio} />
@@ -360,7 +432,7 @@ const Hero = () => {
   );
 };
 
-// PressureText component with solid black text
+// PressureText component
 const PressureText = ({ text, className }) => {
   const containerRef = useRef(null);
   const spansRef = useRef([]);
