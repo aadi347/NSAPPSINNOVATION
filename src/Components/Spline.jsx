@@ -167,7 +167,7 @@ const Hero = () => {
 
         {/* Top Right - Connect Button - NAVBAR STYLE */}
         <motion.div
-          className="absolute top-8 right-8 z-[100]"
+          className="absolute top-5 right-8 z-[100]"
           initial={{ opacity: 0, x: 50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
@@ -180,13 +180,13 @@ const Hero = () => {
             whileTap={{ scale: 0.95 }}
           >
             {/* Outer transparent layer with border */}
-            <div className="absolute inset-0 bg-white/5 backdrop-blur-md rounded-full border-2 border-white/30 shadow-[0_8px_32px_rgba(255,255,255,0.1)] group-hover:border-white/50 transition-all duration-300"></div>
+            <div className="absolute -inset-1 bg-white/5 backdrop-blur-md rounded-full border-1 border-white shadow-[0_8px_32px_rgba(255,255,255,0.1)] group-hover:border-white/50 transition-all duration-300"></div>
             
             {/* Inner layer with white background */}
-            <div className="absolute inset-[4px] bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.1)] group-hover:bg-white/95 transition-all duration-300"></div>
+            <div className="absolute inset-[2px] bg-white rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.1)] group-hover:bg-white/95 transition-all duration-300"></div>
             
             {/* Content */}
-            <span className="relative z-10 px-6 py-2.5 text-sm md:text-base font-semibold text-gray-900 flex items-center space-x-2">
+            <span className="relative z-10 px-6 py-4 text-sm md:text-base font-medium text-gray-600 group-hover:text-gray-900 flex items-center space-x-2 transition-colors duration-300">
               <motion.svg 
                 className="w-4 h-4" 
                 fill="none" 
