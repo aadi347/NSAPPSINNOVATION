@@ -9,16 +9,11 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Dummy products to ensure we have at least 5 cards initially
 const initialDummyProducts = [
-    { id: 'd1', title: 'Neon Nexus', category: 'Cyberpunk UI', desc: 'Futuristic dashboard interface.', img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80', tags: ['UI', 'React'] }
-];
+]
 
 // Additional products shown when "View More" is clicked
 const moreDummyProducts = [
-    { id: 'd2', title: 'Zenith', category: 'Wellness App', desc: 'Meditation and focus tracking.', img: 'https://images.unsplash.com/photo-1515023115689-589c33041697?auto=format&fit=crop&w=800&q=80', tags: ['Mobile', 'Flutter'] },
-    { id: 'd3', title: 'Apex', category: 'Fitness Tracker', desc: 'High performance workout analytics.', img: 'https://images.unsplash.com/photo-1576678927484-cc907957088c?auto=format&fit=crop&w=800&q=80', tags: ['Data', 'D3.js'] },
-    { id: 'd4', title: 'Echo', category: 'Audio Stream', desc: 'Lossless audio streaming platform.', img: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=800&q=80', tags: ['Audio', 'WebRTC'] },
-    { id: 'd5', title: 'Nova', category: 'Space Exploration', desc: 'Interactive solar system map.', img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80', tags: ['WebGL', 'Three.js'] }
-];
+]
 
 const ProductSection = () => {
     const sectionRef = useRef(null);
@@ -52,7 +47,14 @@ const ProductSection = () => {
             }
         }, sectionRef);
 
-        return () => ctx.revert();
+        const timer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 500);
+
+        return () => {
+            clearTimeout(timer);
+            ctx.revert();
+        };
     }, [isExpanded, productsData]); // Re-run when expanded
 
     const toggleFavorite = (id) => {

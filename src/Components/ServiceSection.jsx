@@ -9,16 +9,12 @@ gsap.registerPlugin(ScrollTrigger);
 
 // Dummy services to ensure we have at least 5 cards initially
 const initialDummyServices = [
-    { id: 's-init-1', title: 'Cloud Migration', category: 'DevOps', desc: 'Seamless transition to cloud infrastructure.', img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80', tags: ['AWS', 'Azure'] },
-    { id: 's-init-2', title: 'AI Integration', category: 'Machine Learning', desc: 'Smart algorithms for business intelligence.', img: 'https://images.unsplash.com/photo-1555255707-c07966088b7b?auto=format&fit=crop&w=800&q=80', tags: ['Python', 'TensorFlow'] }
+
 ];
 
 // Additional services shown when "View More" is clicked
 const moreDummyServices = [
-    { id: 's-more-1', title: 'Blockchain Auth', category: 'Security', desc: 'Decentralized identity management systems.', img: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?auto=format&fit=crop&w=800&q=80', tags: ['Web3', 'Solidity'] },
-    { id: 's-more-2', title: 'VR Training', category: 'EdTech', desc: 'Immersive virtual reality learning modules.', img: 'https://images.unsplash.com/photo-1592478411213-61535fdd861d?auto=format&fit=crop&w=800&q=80', tags: ['Unity', 'VR'] },
-    { id: 's-more-3', title: 'IoT Ecosystem', category: 'Hardware', desc: 'Connected device management and analytics.', img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=800&q=80', tags: ['IoT', 'MQTT'] },
-    { id: 's-more-4', title: 'Cyber Defense', category: 'Cybersecurity', desc: 'Advanced threat detection and prevention.', img: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=800&q=80', tags: ['SecOps', 'AI'] }
+
 ];
 
 const ServiceSection = () => {
@@ -41,6 +37,8 @@ const ServiceSection = () => {
                         trigger: sectionRef.current,
                         pin: true,
                         scrub: 1,
+                        // Add anticipatePin to help avoid flash/overlap
+                        anticipatePin: 1,
                         end: () => "+=" + (containerRef.current.scrollWidth - window.innerWidth),
                         invalidateOnRefresh: true,
                     }
@@ -48,7 +46,18 @@ const ServiceSection = () => {
             }
         }, sectionRef);
 
-        return () => ctx.revert();
+        // Immediate refresh to register new pin spacer height
+        ScrollTrigger.refresh();
+
+        // Secondary refresh to handle any layout settling
+        const timer = setTimeout(() => {
+            ScrollTrigger.refresh();
+        }, 100);
+
+        return () => {
+            clearTimeout(timer);
+            ctx.revert();
+        };
     }, [isExpanded, servicesData]);
 
     const toggleFavorite = (id) => {
@@ -67,7 +76,7 @@ const ServiceSection = () => {
 
 
     return (
-        <section ref={sectionRef} className="relative bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 text-gray-900 overflow-hidden h-screen flex flex-col justify-center">
+        <section ref={sectionRef} className="relative bg-gradient-to-br from-gray-100 via-gray-50 to-gray-100 text-gray-900 overflow-hidden h-screen flex flex-col justify-center z-30">
             {/* Header Section - Fixed */}
             <div className="absolute top-0 left-0 w-full z-20 p-4 md:p-6 pointer-events-none">
                 <div className="max-w-2xl">

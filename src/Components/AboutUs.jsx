@@ -81,11 +81,11 @@ const AILottie = () => <BigLottie jsonUrl="/Man and robot with computers sitting
 const FocusScrollItem = ({ children, isActive, isNeighbor }) => {
   return (
     <motion.div
-      className={`py-6 text-lg md:text-xl transition-all duration-700 ease-in-out ${isActive
-        ? 'opacity-100 blur-0 scale-100 text-gray-800 font-normal tracking-wide'
+      className={`py-4 transition-all duration-1000 ease-out ${isActive
+        ? 'opacity-100 blur-0 scale-100 translate-x-4 text-gray-800'
         : isNeighbor
-          ? 'opacity-50 blur-[1px] scale-95 text-gray-400 font-light'
-          : 'opacity-20 blur-[2px] scale-90 text-gray-300 font-light'
+          ? 'opacity-40 blur-[1px] scale-95 translate-x-0 text-gray-400'
+          : 'opacity-10 blur-[2px] scale-90 translate-x-0 text-gray-300'
         }`}
     >
       {children}
@@ -101,23 +101,23 @@ const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
   const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt();
 
   const achievements = [
-    <p className="text-xs font-medium">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span>.<br />And we are the team behind <span className="font-semibold text-gray-900">Bihar’s most ambitious digital transformations</span>.</p>,
-    <p className="text-xs font-medium">We are the tech team behind the <span className="font-semibold text-gray-900">Asia Hockey Men’s & Women’s Championship, Rajgir</span> — delivering live match updates, dynamic schedules, athlete insights, and a world-class event website trusted by thousands.</p>,
-    <p className="text-xs font-medium">We are the ones behind the <span className="font-semibold text-gray-900">Startup Bihar Portal</span> — the digital gateway empowering thousands of founders and shaping Bihar’s entrepreneurial rise.</p>,
-    <p className="text-xs font-medium">We engineered the <span className="font-semibold text-gray-900">Buddha Samyak Darshan Museum Ticketing System</span>, seamlessly handling 2+ lakh visitors every month with unmatched speed, reliability, and scale.</p>,
-    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">Bihar Film</span> and <span className="font-semibold text-gray-900">Bihar Heritage</span> websites — welcoming filmmakers, preserving culture, and showcasing the marvels of the state in modern digital form.</p>,
-    <p className="text-xs font-medium">We authenticate thousands of <span className="font-semibold text-gray-900">MMUY & Bihar Laghu Udyami Yojna</span> beneficiary attendances across all districts — ensuring secure verification, transparent monitoring, and real-time insights statewide.</p>,
-    <p className="text-xs font-medium">Our <span className="font-semibold text-gray-900">LITMAN system</span> — Bihar’s Litigation Management & Compliance Tracking platform — helps departments manage and monitor court cases with precision. Its flagship implementation, the <span className="font-semibold text-gray-900">ViSha Portal</span>, has transformed how legal workflows operate across the state.</p>,
-    <p className="text-xs font-medium">We track <span className="font-semibold text-gray-900">Awas Yojna</span> progress through GPS-accurate inspections and photo-verified audits, bringing accountability directly to the ground.</p>,
-    <p className="text-xs font-medium">We developed <span className="font-semibold text-gray-900">Bihar’s first AI-powered government chatbot</span>, and we are the design consultants behind the new, modern <span className="font-semibold text-gray-900">Bihar State Government website</span>.</p>,
-    <p className="text-xs font-medium">We captured Bihar’s greatest monuments in <span className="font-semibold text-gray-900">360° VR</span>, bringing the state’s heritage and architecture to virtual reality.</p>,
-    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">NRIS – Injury Report Information System</span>, a revolutionary legal-tech solution enabling injury reports in record time — now paving the way for national-level deployment.</p>,
-    <p className="text-xs font-medium">We developed the <span className="font-semibold text-gray-900">Shravani Mela App</span>, serving millions of devotees traveling from Sultanganj to BabaDham with virtual aarti, route guidance, and real-time facilities.</p>,
-    <p className="text-xs font-medium">We supported the <span className="font-semibold text-gray-900">Khelo India Youth Games</span> grievance system in Nalanda, solving athlete and event issues with fast, streamlined resolution workflows.</p>,
-    <p className="text-xs font-medium">We built the <span className="font-semibold text-gray-900">Khelo India Bhagalpur Ticket Booking Platform</span>, ensuring smooth, digital, QR-based entry for thousands of spectators.</p>,
-    <p className="text-xs font-medium">We are among the <span className="font-semibold text-gray-900">earliest tech startups of Bihar</span>, leading the frontier of <span className="font-semibold text-gray-900">AI, VR, cloud engineering</span>, and next-generation governance systems.</p>,
-    <p className="text-xs font-medium">We are scaling our platforms to national level, with a larger vision — to make Bihar a global soft power in technology. A state that builds world-class software for India and serves the world.</p>,
-    <p className="text-xs font-medium">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span> — the unseen force behind Digital Innovations in Bihar. We build. We design. We innovate.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span>.<br />And we are the team behind <span className="font-semibold text-gray-900">Bihar’s most ambitious digital transformations</span>.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are the tech team behind the <span className="font-semibold text-gray-900">Asia Hockey Men’s & Women’s Championship, Rajgir</span> — delivering live match updates, dynamic schedules, athlete insights, and a world-class event website trusted by thousands.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are the ones behind the <span className="font-semibold text-gray-900">Startup Bihar Portal</span> — the digital gateway empowering thousands of founders and shaping Bihar’s entrepreneurial rise.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We engineered the <span className="font-semibold text-gray-900">Buddha Samyak Darshan Museum Ticketing System</span>, seamlessly handling 2+ lakh visitors every month with unmatched speed, reliability, and scale.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We built the <span className="font-semibold text-gray-900">Bihar Film</span> and <span className="font-semibold text-gray-900">Bihar Heritage</span> websites — welcoming filmmakers, preserving culture, and showcasing the marvels of the state in modern digital form.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We authenticate thousands of <span className="font-semibold text-gray-900">MMUY & Bihar Laghu Udyami Yojna</span> beneficiary attendances across all districts — ensuring secure verification, transparent monitoring, and real-time insights statewide.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">Our <span className="font-semibold text-gray-900">LITMAN system</span> — Bihar’s Litigation Management & Compliance Tracking platform — helps departments manage and monitor court cases with precision. Its flagship implementation, the <span className="font-semibold text-gray-900">ViSha Portal</span>, has transformed how legal workflows operate across the state.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We track <span className="font-semibold text-gray-900">Awas Yojna</span> progress through GPS-accurate inspections and photo-verified audits, bringing accountability directly to the ground.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We developed <span className="font-semibold text-gray-900">Bihar’s first AI-powered government chatbot</span>, and we are the design consultants behind the new, modern <span className="font-semibold text-gray-900">Bihar State Government website</span>.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We captured Bihar’s greatest monuments in <span className="font-semibold text-gray-900">360° VR</span>, bringing the state’s heritage and architecture to virtual reality.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We built the <span className="font-semibold text-gray-900">NRIS – Injury Report Information System</span>, a revolutionary legal-tech solution enabling injury reports in record time — now paving the way for national-level deployment.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We developed the <span className="font-semibold text-gray-900">Shravani Mela App</span>, serving millions of devotees traveling from Sultanganj to BabaDham with virtual aarti, route guidance, and real-time facilities.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We supported the <span className="font-semibold text-gray-900">Khelo India Youth Games</span> grievance system in Nalanda, solving athlete and event issues with fast, streamlined resolution workflows.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We built the <span className="font-semibold text-gray-900">Khelo India Bhagalpur Ticket Booking Platform</span>, ensuring smooth, digital, QR-based entry for thousands of spectators.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are among the <span className="font-semibold text-gray-900">earliest tech startups of Bihar</span>, leading the frontier of <span className="font-semibold text-gray-900">AI, VR, cloud engineering</span>, and next-generation governance systems.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are scaling our platforms to national level, with a larger vision — to make Bihar a global soft power in technology. A state that builds world-class software for India and serves the world.</p>,
+    <p className="text-sm font-light tracking-wide text-gray-600 leading-relaxed">We are <span className="font-semibold text-gray-900">NS Apps Innovations</span> — the unseen force behind Digital Innovations in Bihar. We build. We design. We innovate.</p>,
   ];
 
   // Auto-advance timer
@@ -155,10 +155,10 @@ const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="grid lg:grid-cols-2 gap-16 items-start h-[600px]"
+      className="grid lg:grid-cols-[1.3fr_0.7fr] gap-12 items-start h-[600px]"
     >
       {/* Left Content - AUTO SCROLL MOVIE STYLE */}
-      <div ref={listRef} className="h-full  overflow-hidden mask-gradient-vertical relative bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-white/50 shadow-sm">
+      <div ref={listRef} className="h-full  overflow-hidden mask-gradient-vertical relative bg-white/50  rounded-3xl ">
         <div className="space-y-0 py-[50%]">
           {achievements.map((item, index) => (
             <div

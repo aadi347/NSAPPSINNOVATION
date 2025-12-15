@@ -1,5 +1,5 @@
 [
-     {
+    {
         "id": "vidhi-sakha",
         "type": "service",
         "title": "Vidhi Sakha",
@@ -23,10 +23,10 @@
     {
         "id": "dak-pad",
         "type": "service",
-        "title": "Dak Pad (Jan Samadhan)",
+        "title": "Jan Samadhan",
         "category": "Public Grievance",
         "desc": "Public grievance and application tracking portal for Bhojpur.",
-        "fullDescription": "Dak Pad, also known as \"Jan Samadhan - Lok Shikayat Evam Avedan Tracking Portal\", is a citizen-centric web application designed for the public of Bhojpur. It empowers citizens to submit complaints and requests online and track their status. The system allows the administration to securely manage and resolve these cases, ensuring efficient public service delivery and grievance redressal.",
+        "fullDescription": "Jan Samadhan is a citizen-centric web application designed for the public of Bhojpur. It empowers citizens to submit complaints and requests online and track their status. The system allows the administration to securely manage and resolve these cases, ensuring efficient public service delivery and grievance redressal.",
         "tags": [
             "Grievance Redressal",
             "Public Service",
@@ -42,65 +42,87 @@
         ]
     },
     {
-        "id": "uiux-design-kit",
+        "id": "mmuy-attendance",
         "type": "service",
-        "title": "UI/UX Design Kit",
-        "category": "Design System",
-        "desc": "A complete design system for enterprise applications, focusing on accessibility and consistent brand identity.",
-        "fullDescription": "We developed a comprehensive design system to unify the digital products of a major enterprise. The kit includes a library of reusable components, detailed usage guidelines, and accessibility standards (WCAG 2.1). This system has streamlined the development process, ensured brand consistency across all platforms, and significantly improved the user experience for employees and customers alike.",
+        "title": "MMUY Attendance Portal",
+        "category": "Government & Scheme",
+        "desc": "Biometric attendance tracking system for Mukhyamantri Udyami Yojana beneficiaries.",
+        "fullDescription": "The MMUY Attendance Portal is a robust digital solution designed to ensure transparency and accountability in the Mukhyamantri Udyami Yojana training programs. It features real-time biometric tracking, secure login for administrators, and detailed reporting dashboards to monitor beneficiary attendance across various districts in Bihar.",
         "tags": [
-            "Figma",
-            "Storybook",
-            "CSS Modules"
+            "Biometrics",
+            "Attendance",
+            "Govt Scheme"
         ],
-        "img": "https://images.unsplash.com/photo-1561070791-2526d30994b5?auto=format&fit=crop&w=800&q=80",
-        "client": "Enterprise Corp",
-        "date": "September 2023",
+        "img": "/MMUY.png",
+        "client": "Department of Industries, Bihar",
+        "date": "2024",
+        "link": "https://mmuybihar.web.app/login",
         "images": [
-            "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1586717791821-3f44a5638d48?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1616198814651-e71f960c3180?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1577962917302-cd874c4e31d2?auto=format&fit=crop&w=800&q=80"
         ]
     },
     {
-        "id": "corporate-website",
+        "id": "helloUdyami-chatbot",
         "type": "service",
-        "title": "Corporate Website",
-        "category": "Web Development",
-        "desc": "High-performance corporate presence with advanced SEO optimization and dynamic content management.",
-        "fullDescription": "A complete overhaul of a corporate website to improve performance and SEO rankings. We utilized Gatsby for static site generation, ensuring blazing fast load times. Content is managed via Sanity CMS, allowing the marketing team to easily update pages without developer intervention. The result was a 40% increase in organic traffic and a significant boost in lead generation.",
+        "title": "HelloUdyami AI Chatbot",
+        "category": "AI & Automation",
+        "desc": "AI-powered chatbot for 24/7 user assistance and query resolution.",
+        "fullDescription": "HelloUdyami is an advanced AI-powered chatbot designed to provide instant support and guidance. It leverages natural language processing to understand user queries and deliver accurate, context-aware responses, significantly improving user engagement and support efficiency.",
         "tags": [
-            "Gatsby",
-            "Sanity",
-            "Netlify"
+            "AI",
+            "Chatbot",
+            "Automation"
         ],
-        "img": "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80",
-        "client": "Business Solutions Ltd",
-        "date": "November 2023",
+        "img": "/HelloUdyami.png",
+        "client": "Department of Industries, Bihar",
+        "date": "2024",
+        "link": "https://helloudyami.web.app/",
         "images": [
-            "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1535378437327-b710006f3c47?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80"
         ]
     },
     {
-        "id": "brand-strategy",
+        "id": "vr-heritage-experience",
         "type": "service",
-        "title": "Brand Strategy",
-        "category": "Branding",
-        "desc": "Rebranding campaign for a tech startup, including logo design, voice & tone guidelines, and marketing collateral.",
-        "fullDescription": "We partnered with a promising tech startup to define their visual and verbal identity. The project involved extensive market research, competitor analysis, and workshops with stakeholders. We delivered a complete brand book covering logo usage, color palettes, typography, and tone of voice. The new brand identity successfully positions them as an innovative leader in their industry.",
+        "title": "Bihar Heritage VR Experience",
+        "category": "Virtual Reality",
+        "desc": "Bringing the state’s heritage and architecture to virtual reality.",
+        "fullDescription": "We have captured Bihar’s greatest monuments and historical sites in 360° VR, offering an immersive digital journey into the state's rich architectural legacy. This virtual reality experience allows global audiences to explore heritage sites remotely with stunning detail and realism.",
         "tags": [
-            "Adobe Suite",
-            "Strategy",
-            "Identity"
+            "VR",
+            "Heritage",
+            "360° Tour"
         ],
-        "img": "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-        "client": "NextGen Tech",
-        "date": "July 2023",
+        "img": "https://images.unsplash.com/photo-1622979135228-5b1ed3172080?auto=format&fit=crop&w=800&q=80",
+        "client": "Bihar Heritage Dev Society",
+        "date": "2024",
+        "link": "",
         "images": [
-            "https://images.unsplash.com/photo-1557804506-669a67965ba0?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=800&q=80"
+            "https://images.unsplash.com/photo-1592478411213-61535fdd861d?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        "id": "n-iris",
+        "type": "service",
+        "title": "N-IRIS (Nalanda Injury Report System)",
+        "category": "GovTech & Justice",
+        "desc": "Transforming justice by reducing injury report generation time from months to days.",
+        "fullDescription": "N-IRIS (Nalanda Injury Report Information System) is a transformative initiative designed to bring speed and fairness to the justice system. By replacing manual processes with a digital app, it has reduced the time for generating provisional injury reports from 6-10 months to just 2-3 days. Having processed over 10,000 reports, it empowers victims with real-time photographic evidence.",
+        "tags": [
+            "Justice Tech",
+            "Governance",
+            "Digital Transformation"
+        ],
+        "img": "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800&q=80",
+        "client": "District Administration, Nalanda",
+        "date": "Ongoing",
+        "link": "",
+        "images": [
+            "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1516321497487-e288fb19713f?auto=format&fit=crop&w=800&q=80"
         ]
     }
-   
-    
 ]

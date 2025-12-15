@@ -80,7 +80,7 @@
             "Subsidies",
             "Cinema"
         ],
-        "img": "/BiharFilms.png",
+        "img": "/Bihar State Film Development and Finance Corporation.png",
         "client": "BSFDFC",
         "date": "Ongoing",
         "team": [
@@ -130,6 +130,39 @@
         "images": [
             "https://images.unsplash.com/photo-1590050752117-238cb0fb9dbb?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1622308644420-a94bb8a23663?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        "id": "asia-hockey",
+        "type": "product",
+        "title": "Asia Hockey Men’s & Women’s Championship",
+        "category": "Sports Tech",
+        "desc": "Delivering live match updates, dynamic schedules, and athlete insights.",
+        "fullDescription": "We are the tech team behind the Asia Hockey Men’s & Women’s Championship, Rajgir — delivering live match updates, dynamic schedules, athlete insights, and a world-class event website trusted by thousands.",
+        "tags": [
+            "Live Updates",
+            "Sports Tech",
+            "Event Management"
+        ],
+        "img": "/Hockey.png",
+        "link": "http://localhost:5174/",
+        "client": "Sports Department, Bihar",
+        "date": "2024",
+        "team": [
+            {
+                "name": "Manish Kumar",
+                "role": "Lead Developer",
+                "image": "/Manish.jpeg"
+            },
+            {
+                "name": "Aditya Raj",
+                "role": "Tech Lead",
+                "image": "/Aditya.jpeg"
+            }
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
         ]
     }
 ]
