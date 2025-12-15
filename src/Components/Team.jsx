@@ -294,9 +294,8 @@ const Team = () => {
             style={{
               boxShadow: "0 4px 32px rgba(60,60,60,0.08)",
             }}
-            onError={(e) => {
-              e.target.src = "https://via.placeholder.com/128x160?text=Owner";
-            }}
+            
+           
           />
         </div>
         <div>
