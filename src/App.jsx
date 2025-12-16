@@ -17,12 +17,10 @@ import Team from "./Components/Team";
 // import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
 import ServicesSection from "./Components/ServicesSection";
-// import ProductSection from "./Components/ProductSection";
-// import ServiceSection from "./Components/ServiceSection";
+import ProductSection from "./Components/ProductSection";
+import ServiceSection from "./Components/ServiceSection";
 import ProductDetail from "./Components/ProductDetail";
 import ServiceDetail from "./Components/ServiceDetail";
-import CircularGallery from "./Components/CircularGallery";
-
 import CursorDot from "./Components/Cursor";
 // Scroll to top on route change
 function ScrollToTop() {
@@ -66,9 +64,8 @@ function App() {
                   <CursorDot />
                   <AboutUs />
                   <ServicesSection />
-                  <CircularGallery />
-                  {/* <ProductSection />
-                  <ServiceSection /> */}
+                  <ProductSection />
+                  <ServiceSection />
                   <Team />
                   {/* <GetInTouchSection /> */}
                   <ContactUs />
@@ -83,6 +80,7 @@ function App() {
             <Route path="/contact" element={<Contact />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
+           
           </Routes>
         </>
       )}

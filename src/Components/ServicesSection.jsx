@@ -6,7 +6,7 @@ import CurveSVGManipulation from '../Components/Svgmanupulation';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ServiceCard = ({ icon: Icon, title, description, index }) => {
+const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
   const cardRef = useRef(null);
 
   useEffect(() => {
@@ -41,9 +41,9 @@ const ServiceCard = ({ icon: Icon, title, description, index }) => {
   return (
     <div ref={cardRef} className="relative mt-10">
       {/* Outer cutout layer */}
-      <div className="flex justify-center div-cutout bg-black/5">
+      <div className="flex justify-center bg-black/5" style={clipStyle}>
         {/* Inner cutout layer */}
-        <div className="flex justify-center div-cutout bg-white h-96 w-72 scale-[0.99] border border-gray-200 shadow-md">
+        <div className="flex justify-center bg-white h-96 w-72 scale-[0.99] border border-gray-200 shadow-md" style={clipStyle}>
           {/* Card content */}
           <div className="relative h-full w-full bg-gradient-to-br from-gray-50 to-gray-100 p-8 flex flex-col justify-between group hover:from-gray-900 hover:to-gray-800 transition-all duration-500">
             {/* Icon */}
@@ -116,20 +116,12 @@ const ServicesSection = () => {
     },
   ];
 
+  const clipPathStyle = {
+    clipPath: 'polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 0 100%)'
+  };
+
   return (
     <>
-      <style jsx>{`
-        .div-cutout {
-          clip-path: polygon(
-            0 0,
-            calc(100% - 20px) 0,
-            100% 20px,
-            100% 100%,
-            0 100%
-          );
-        }
-      `}</style>
-
       <section className="relative w-full min-h-screen bg-white text-black py-8 overflow-hidden" id='service'>
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Header + SVG wrapper */}
@@ -142,7 +134,7 @@ const ServicesSection = () => {
             </div>
 
 
-            <div className="w-full overflow-visible flex w-full z-50 absolute top-1/9 right-14">
+            <div className="w-full overflow-visible flex w-full z-50 absolute top-[10%] right-14">
               <CurveSVGManipulation />
 
             </div>
@@ -157,6 +149,7 @@ const ServicesSection = () => {
                 title={service.title}
                 description={service.description}
                 index={index}
+                clipStyle={clipPathStyle}
               />
             ))}
           </div>
