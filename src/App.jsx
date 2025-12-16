@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Spline";
 import AboutUs from "./Components/AboutUs";
@@ -25,14 +30,14 @@ function ScrollToTop() {
 
   useEffect(() => {
     // Only scroll to top if we're NOT on the home page with a hash
-    if (!pathname.includes('#')) {
+    if (!pathname.includes("#")) {
       window.scrollTo(0, 0);
     }
   }, [pathname]);
 
   useEffect(() => {
-    if ('scrollRestoration' in window.history) {
-      window.history.scrollRestoration = 'manual';
+    if ("scrollRestoration" in window.history) {
+      window.history.scrollRestoration = "manual";
     }
     window.scrollTo(0, 0);
   }, []);
@@ -57,7 +62,6 @@ function App() {
               path="/"
               element={
                 <>
-
                   <Hero />
                   <CursorDot />
                   <AboutUs />
@@ -74,15 +78,11 @@ function App() {
               }
             />
 
-
-
             {/* Other Pages */}
             <Route path="/about" element={<About />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
-            {/* <Route path="/projects" element={<ProjectsGallery />} />
-            <Route path="/services" element={<ProjectsGallery />} /> */}
           </Routes>
         </>
       )}
