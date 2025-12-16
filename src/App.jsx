@@ -14,7 +14,7 @@ import SplashScreen from "./Components/SplashScreen";
 import Team from "./Components/Team";
 import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
-import ServicesSection from "./Components/ServicesSection";
+
 import ProductSection from "./Components/ProductSection";
 import ServiceSection from "./Components/ServiceSection";
 import ProductDetail from "./Components/ProductDetail";
@@ -61,7 +61,7 @@ function App() {
                   <Hero />
                   <CursorDot />
                   <AboutUs />
-                  <ServicesSection />
+         
                   <ProductSection />
                   <ServiceSection />
                   <Team />
