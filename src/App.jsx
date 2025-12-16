@@ -73,12 +73,9 @@ function App() {
               }
             />
 
-            {/* Other Pages */}
-            
-            
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
-           
+
           </Routes>
         </>
       )}
