@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useNavigate, useLocation } from "react-router-dom";
+import { Menu, XCircle } from "lucide-react";
 
 const TopNavbar = () => {
   const [activeTab, setActiveTab] = useState("hero-section");

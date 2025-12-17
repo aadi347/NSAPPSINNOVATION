@@ -11,7 +11,7 @@
             "Government",
             "Management"
         ],
-        "img": "/VidhiSakha.png",
+        "img": "/Projects/VidhiSakha.png",
         "client": "Health Dept, Govt. of Bihar",
         "date": "2025",
         "link": "https://litman.web.app/",
@@ -74,7 +74,7 @@
             "Chatbot",
             "Automation"
         ],
-        "img": "/HelloUdyami.png",
+        "img": "/Projects/HelloUdyami.jpeg",
         "client": "Department of Industries, Bihar",
         "date": "2024",
         "link": "https://helloudyami.web.app/",
@@ -95,7 +95,7 @@
             "Heritage",
             "360° Tour"
         ],
-        "img": "https://images.unsplash.com/photo-1622979135228-5b1ed3172080?auto=format&fit=crop&w=800&q=80",
+        "img": "/Projects/vr-work.jpeg",
         "client": "Bihar Heritage Dev Society",
         "date": "2024",
         "link": "",

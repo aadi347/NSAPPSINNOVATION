@@ -59,7 +59,7 @@ const Footer = () => {
                 <ul className="space-y-2 text-gray-600">
                   <li>
                     <Link
-                      to="/"
+                      to=""
                       className="hover:text-gray-900 hover:translate-x-0.5 inline-block transition-all duration-200"
                     >
                       Home
@@ -67,7 +67,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      to="/about"
+                      to=""
                       className="hover:text-gray-900 hover:translate-x-0.5 inline-block transition-all duration-200"
                     >
                       About
@@ -75,7 +75,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      to="/contact"
+                      to=""
                       className="hover:text-gray-900 hover:translate-x-0.5 inline-block transition-all duration-200"
                     >
                       Contact
@@ -83,7 +83,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      to="/services"
+                      to=""
                       className="hover:text-gray-900 hover:translate-x-0.5 inline-block transition-all duration-200"
                     >
                       Services
@@ -91,7 +91,7 @@ const Footer = () => {
                   </li>
                   <li>
                     <Link
-                      to="/projects"
+                      to=""
                       className="hover:text-gray-900 hover:translate-x-0.5 inline-block transition-all duration-200"
                     >
                       Projects

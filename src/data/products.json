@@ -11,7 +11,7 @@
             "Entrepreneurship",
             "Funding"
         ],
-        "img": "/StartupBihar.png",
+        "img": "/Projects/StartupBihar.png",
         "client": "Department of Industries",
         "date": "Ongoing",
         "team": [
@@ -48,7 +48,7 @@
             "Buddhism",
             "Museum"
         ],
-        "img": "/BudhaSamyak.png",
+        "img": "/Projects/BudhaSamyak.jpg",
         "client": "Art, Culture & Youth Dept",
         "date": "Under Construction",
         "team": [
@@ -68,71 +68,7 @@
             "https://images.unsplash.com/photo-1599837565318-67429bde8a6d?auto=format&fit=crop&w=800&q=80"
         ]
     },
-    {
-        "id": "film-bihar",
-        "type": "product",
-        "title": "Film Bihar",
-        "category": "Media & Entertainment",
-        "desc": "Promoting Bihar as a premier film shooting destination.",
-        "fullDescription": "The Bihar State Film Development and Finance Corporation (BSFDFC) aims to revive and promote the film industry in the state. Through the Bihar Film Policy, it offers attractive subsidies, single-window clearances, and infrastructural support to filmmakers. The initiative highlights Bihar's scenic locations, rich culture, and untold stories, inviting production houses to explore the state's potential as a filming hub.",
-        "tags": [
-            "Film Policy",
-            "Subsidies",
-            "Cinema"
-        ],
-        "img": "/Bihar State Film Development and Finance Corporation.png",
-        "client": "BSFDFC",
-        "date": "Ongoing",
-        "team": [
-            {
-                "name": "Manish Kumar",
-                "role": "Creative Director",
-                "image": "/Manish.jpeg"
-            },
-            {
-                "name": "Sanya Singh",
-                "role": "Content Strategist",
-                "image": "/Aditya.jpeg"
-            }
-        ],
-        "images": [
-            "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=800&q=80"
-        ]
-    },
-    {
-        "id": "bihar-heritage-project",
-        "type": "product",
-        "title": "Bihar Heritage Project",
-        "category": "Digital Heritage",
-        "desc": "Preserving and showcasing Bihar's glorious past digitally.",
-        "fullDescription": "The Bihar Heritage Project is a digital initiative dedicated to documenting and preserving the rich cultural and historical legacy of Bihar. It serves as a virtual repository of the state's monuments, archaeological sites, and intangible heritage. Through interactive exhibits, high-quality imagery, and scholarly research, the project aims to educate the global audience about Bihar's significant contribution to Indian history and civilization.",
-        "tags": [
-            "Digital Archive",
-            "History",
-            "Preservation"
-        ],
-        "img": "/BiharHeritage.png",
-        "client": "Bihar Heritage Dev Society",
-        "date": "2024",
-        "team": [
-            {
-                "name": "Abhishek",
-                "role": "Tech Lead",
-                "image": "/Abhishek.jpeg"
-            },
-            {
-                "name": "Aditya Raj",
-                "role": "Historian",
-                "image": "/AdityaRaj.jpeg"
-            }
-        ],
-        "images": [
-            "https://images.unsplash.com/photo-1590050752117-238cb0fb9dbb?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1622308644420-a94bb8a23663?auto=format&fit=crop&w=800&q=80"
-        ]
-    },
-    {
+     {
         "id": "asia-hockey",
         "type": "product",
         "title": "Asia Hockey Men’s & Women’s Championship",
@@ -144,7 +80,7 @@
             "Sports Tech",
             "Event Management"
         ],
-        "img": "/Hockey.png",
+        "img": "/Projects/Hockey.png",
         "link": "http://localhost:5174/",
         "client": "Sports Department, Bihar",
         "date": "2024",
@@ -163,6 +99,77 @@
         "images": [
             "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
             "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+    {
+        "id": "film-bihar",
+        "type": "product",
+        "title": "Film Bihar",
+        "category": "Media & Entertainment",
+        "desc": "Promoting Bihar as a premier film shooting destination.",
+        "fullDescription": "The Bihar State Film Development and Finance Corporation (BSFDFC) aims to revive and promote the film industry in the state. Through the Bihar Film Policy, it offers attractive subsidies, single-window clearances, and infrastructural support to filmmakers. The initiative highlights Bihar's scenic locations, rich culture, and untold stories, inviting production houses to explore the state's potential as a filming hub.",
+        "tags": [
+            "Film Policy",
+            "Subsidies",
+            "Cinema"
+        ],
+        "img": "/Projects/Bihar State Film Development and Finance Corporation.png",
+        "client": "BSFDFC",
+        "date": "Ongoing",
+        "team": [
+            {
+                "name": "Manish Kumar",
+                "role": "Frontend Developer",
+                "image": "/Manish.jpeg"
+            },
+            {
+                "name": "Aditya Raj",
+                "role": "Frontend Developer",
+                "image": "/AdityaRaj.jpeg"
+            },
+            {
+                "name": "Aditya Kumar",
+                "role": "Backend Developer",
+                "image": "/aditya.png"
+            }
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=800&q=80"
+        ]
+    },
+  
+   
+      {
+        "id": "bihar-heritage-project",
+        "type": "product",
+        "title": "Bihar Heritage Project",
+        "category": "Digital Heritage",
+        "desc": "Preserving and showcasing Bihar's glorious past digitally.",
+        "fullDescription": "The Bihar Heritage Project is a digital initiative dedicated to documenting and preserving the rich cultural and historical legacy of Bihar. It serves as a virtual repository of the state's monuments, archaeological sites, and intangible heritage. Through interactive exhibits, high-quality imagery, and scholarly research, the project aims to educate the global audience about Bihar's significant contribution to Indian history and civilization.",
+        "tags": [
+            "Digital Archive",
+            "History",
+            "Preservation"
+        ],
+        "img": "/Projects/BiharHeritage.png",
+        "client": "Bihar Heritage Dev Society",
+        "date": "2024",
+        "team": [
+            {
+                "name": "Abhishek",
+                "role": "Tech Lead",
+                "image": "/Abhishek.jpeg"
+            },
+            {
+                "name": "Aditya Raj",
+                "role": "Historian",
+                "image": "/AdityaRaj.jpeg"
+            }
+        ],
+        "images": [
+            "https://images.unsplash.com/photo-1590050752117-238cb0fb9dbb?auto=format&fit=crop&w=800&q=80",
+            "https://images.unsplash.com/photo-1622308644420-a94bb8a23663?auto=format&fit=crop&w=800&q=80"
         ]
     }
 ]

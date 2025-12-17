@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Sir from "/sir.png"
-
+import completeteam from "/completeteam.svg";
 
 gsap.registerPlugin(ScrollTrigger);
-
 
 const GetInTouchSection = () => {
   const containerRef = useRef(null);
@@ -14,12 +12,10 @@ const GetInTouchSection = () => {
   const imageRef = useRef(null);
   const chatBubblesRef = useRef([]);
 
-
   // Function to scroll to contact section
   const scrollToContact = (e) => {
     e.preventDefault();
     e.stopPropagation();
-
 
     const contactSection = document.getElementById('contact-us');
     if (contactSection) {
@@ -30,25 +26,22 @@ const GetInTouchSection = () => {
     }
   };
 
-
   useEffect(() => {
     if (!containerRef.current || !imageContainerRef.current) return;
-
 
     const ctx = gsap.context(() => {
       // Continuous marquee animation for text - Right to Left
       if (marqueeRef.current) {
         const marqueeContent = marqueeRef.current.querySelector('.marquee-content');
         const contentWidth = marqueeContent.offsetWidth;
-        
+
         gsap.to(marqueeContent, {
           x: -contentWidth / 2,
-          duration: 30, // Slower animation (increased from 20 to 30)
+          duration: 30,
           ease: "none",
           repeat: -1,
         });
       }
-
 
       // Image container appears - WITH SCROLL TRIGGER
       gsap.fromTo(
@@ -70,7 +63,6 @@ const GetInTouchSection = () => {
         }
       );
 
-
       // Image itself reveals - WITH SCROLL TRIGGER
       gsap.fromTo(
         imageRef.current,
@@ -91,61 +83,56 @@ const GetInTouchSection = () => {
         }
       );
 
-
-      // Animate each bubble individually - WITH SCROLL TRIGGER
+      // Animate each bubble individually with scroll trigger
       const validBubbles = chatBubblesRef.current.filter(el => el !== null);
-
 
       validBubbles.forEach((bubble, index) => {
         if (bubble) {
-          // Entrance animation with slower scrub
+          // Entrance animation from sides
+          const isLeftSide = index < 6;
+          
           gsap.fromTo(
             bubble,
             {
-              y: 100,
+              x: isLeftSide ? -100 : 100,
               opacity: 0,
-              scale: 0.6
+              scale: 0.8
             },
             {
-              y: 0,
+              x: 0,
               opacity: 1,
               scale: 1,
-              ease: "power2.out",
-              duration: 2,
-              force3D: true,
+              ease: "power3.out",
+              duration: 1.2,
               scrollTrigger: {
                 trigger: bubble,
-                start: "top 95%",
-                end: "top 35%",
-                scrub: 2.5,
+                start: "top 90%",
+                end: "top 50%",
+                scrub: 1.5,
                 once: true
               }
             }
           );
 
-
           // Floating animation (starts after element is visible)
           gsap.to(bubble, {
-            y: "+=8",
-            duration: 2.5 + (index * 0.3),
+            y: "+=10",
+            duration: 2 + (index * 0.2),
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: 1.5,
+            delay: 1,
             force3D: true
           });
         }
       });
     }, containerRef);
 
-
     const handleResize = () => {
       ScrollTrigger.refresh();
     };
 
-
     window.addEventListener('resize', handleResize);
-
 
     return () => {
       window.removeEventListener('resize', handleResize);
@@ -153,18 +140,16 @@ const GetInTouchSection = () => {
     };
   }, []);
 
-
   return (
     <section
       ref={containerRef}
-      className="relative min-h-screen bg-[#ffffff] overflow-hidden py-20"
+      className="relative min-h-[120vh] bg-[#ffffff] overflow-hidden py-20"
       id="get-in-touch"
     >
-      {/* Scrolling Marquee Text Section - Full text with slow right to left animation and slight tilt */}
-      <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 py-2 mb-6 -rotate-2">
+      {/* Scrolling Marquee Text Section */}
+      <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 py-2 mb-12 -rotate-2">
         <div ref={marqueeRef} className="relative whitespace-nowrap will-change-transform">
           <div className="marquee-content inline-flex items-center">
-            {/* Repeat the full text multiple times for seamless loop */}
             {[...Array(3)].map((_, i) => (
               <React.Fragment key={i}>
                 <h1 className="text-[clamp(4rem,8vw,10rem)] font-black text-white uppercase tracking-tight mx-6 leading-none" style={{ fontFamily: 'Arial Black, sans-serif', letterSpacing: '0.02em' }}>
@@ -177,64 +162,60 @@ const GetInTouchSection = () => {
         </div>
       </div>
 
-
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Image Section with Chat Bubbles - Elements moved further apart */}
+      <div className="max-w-[1920px] mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Image Section with Chat Bubbles */}
         <div
           ref={imageContainerRef}
-          className="relative flex items-center justify-center px-6"
+          className="relative flex items-center justify-center min-h-[800px]"
           style={{ transform: 'translateZ(0)' }}
         >
-          <div className="relative flex items-center justify-center w-full max-w-[90rem]">
-
-
-            {/* Center Image */}
+          <div className="relative w-full flex items-center justify-center">
+            
+            {/* Center Image - Full Width with Proper Aspect Ratio */}
             <img
               ref={imageRef}
-              src={Sir}
-              alt="Nishant Shakher"
-              className="relative w-[420px] h-[480px] sm:w-[500px] sm:h-[560px] md:w-[600px] md:h-[650px] lg:w-[700px] lg:h-[750px] xl:w-[800px] xl:h-[850px] rounded-3xl object-cover object-center"
+              src={completeteam}
+              alt="NS Apps Innovations Team"
+              className="relative w-full max-w-[1400px] h-auto rounded-3xl object-contain"
               style={{ willChange: 'transform', transform: 'translateZ(0)', zIndex: 1 }}
             />
 
-
-            {/* Left Side - Text Bubbles (moved further) */}
-            <div className="absolute left-0 md:left-2 lg:left-4 xl:left-8 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-sm hidden md:block z-10">
-              {/* Nishant Badge */}
+            {/* Left Side - Text Bubbles - Positioned to avoid faces */}
+            <div className="absolute left-2 md:left-4 lg:left-8 xl:left-16 top-[8%] space-y-4 max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-sm hidden md:block z-10">
+              {/* Comment Indicator */}
               <div
                 ref={el => chatBubblesRef.current[0] = el}
-                className="bg-gray-700 text-white px-5 py-2 rounded-full text-xs md:text-sm font-medium shadow-lg w-fit"
+                className="text-gray-400 text-xs md:text-sm px-2 italic"
                 style={{ willChange: 'transform' }}
               >
-                Nishant
+           
               </div>
 
-
+             
+              
               {/* Text Bubble */}
               <div
-                ref={el => chatBubblesRef.current[1] = el}
-                className="bg-white text-gray-900 p-4 md:p-6 rounded-2xl shadow-xl border border-gray-100"
+                ref={el => chatBubblesRef.current[2] = el}
+                className="bg-white absolute text-gray-900 p-4 md:p-2 top-0  rounded-2xl shadow-xl border border-gray-100"
                 style={{ willChange: 'transform' }}
               >
-                <p className="text-sm md:text-base leading-relaxed">
+                <p className="text-sm md:text-base leading-relaxed whitespace-nowrap">
                   Looking to build your next web or mobile app?
                 </p>
               </div>
 
-
               {/* Subtext */}
               <div
-                ref={el => chatBubblesRef.current[2] = el}
-                className="text-gray-500 text-xs md:text-sm px-2"
+                ref={el => chatBubblesRef.current[3] = el}
+                className="text-gray-500 text-xs md:text-sm px-2 pt-52"
                 style={{ willChange: 'transform' }}
               >
                 Let's create something amazing together!
               </div>
 
-
               {/* Send Message Button */}
               <div
-                ref={el => chatBubblesRef.current[3] = el}
+                ref={el => chatBubblesRef.current[4] = el}
                 style={{ willChange: 'transform' }}
               >
                 <button
@@ -246,10 +227,9 @@ const GetInTouchSection = () => {
                 </button>
               </div>
 
-
               {/* Team Badge */}
               <div
-                ref={el => chatBubblesRef.current[4] = el}
+                ref={el => chatBubblesRef.current[5] = el}
                 className="bg-gray-600 text-white px-5 py-2 rounded-full text-xs md:text-sm font-medium shadow-lg w-fit flex items-center gap-2"
                 style={{ willChange: 'transform' }}
               >
@@ -258,39 +238,36 @@ const GetInTouchSection = () => {
               </div>
             </div>
 
-
-            {/* Right Side - Text Bubbles (moved further) */}
-            <div className="absolute right-0 md:right-2 lg:right-4 xl:right-8 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
+            {/* Right Side - Text Bubbles - Positioned to avoid faces */}
+            <div className="absolute right-2 md:right-4 lg:right-8 xl:right-16 top-[52%] space-y-4 max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
               {/* Developer Badge */}
               <div
-                ref={el => chatBubblesRef.current[5] = el}
+                ref={el => chatBubblesRef.current[6] = el}
                 className="bg-gray-600 text-white px-5 py-2 rounded-full text-xs md:text-sm font-medium shadow-lg w-fit ml-auto flex items-center gap-2"
                 style={{ willChange: 'transform' }}
               >
-                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                <div className="w-2 h-2 bg-purple-400 rounded-full "></div>
                 Full Stack Developer
               </div>
 
-
-              {/* Why Nishant? Section */}
+              {/* Why NS Apps Team? Section */}
               <div
-                ref={el => chatBubblesRef.current[6] = el}
-                className="space-y-3 bg-gray-50 p-4 rounded-2xl border border-gray-200"
+                ref={el => chatBubblesRef.current[7] = el}
+                className="space-y-3 bg-white/95 backdrop-blur-sm p-4 rounded-2xl border border-gray-200 shadow-xl"
                 style={{ willChange: 'transform' }}
               >
-                <h3 className="text-gray-900 text-lg md:text-xl font-bold">Why Nishant Shakher?</h3>
+                <h3 className="text-gray-900 text-base md:text-lg font-bold">Why NS Apps Innovations?</h3>
                 <p className="text-gray-700 text-xs md:text-sm leading-relaxed">
                   Specialized in <span className="text-gray-900 font-semibold">React, Node.js, and Android development</span> with expertise in building scalable web and mobile applications.
                 </p>
                 <p className="text-gray-700 text-xs md:text-sm leading-relaxed">
-                  From concept to deployment, I deliver modern, performant solutions that drive results.
+                  From concept to deployment, we deliver modern, performant solutions that drive results.
                 </p>
               </div>
 
-
-              {/* Client Badge */}
+              {/* Projects Badge */}
               <div
-                ref={el => chatBubblesRef.current[7] = el}
+                ref={el => chatBubblesRef.current[8] = el}
                 className="bg-gray-900 text-white px-5 py-2 rounded-full text-xs md:text-sm font-medium shadow-lg w-fit ml-auto flex items-center gap-2"
                 style={{ willChange: 'transform' }}
               >
@@ -298,10 +275,9 @@ const GetInTouchSection = () => {
                 50+ Projects
               </div>
 
-
-              {/* Innovation Badge */}
+              {/* Innovation Badge - Positioned at bottom to avoid cutting */}
               <div
-                ref={el => chatBubblesRef.current[8] = el}
+                ref={el => chatBubblesRef.current[9] = el}
                 className="bg-gray-700 text-white px-5 py-2 rounded-full text-xs md:text-sm font-medium shadow-lg w-fit"
                 style={{ willChange: 'transform' }}
               >
@@ -314,6 +290,5 @@ const GetInTouchSection = () => {
     </section>
   );
 };
-
 
 export default GetInTouchSection;

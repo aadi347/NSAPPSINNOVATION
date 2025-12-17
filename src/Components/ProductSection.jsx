@@ -52,7 +52,7 @@ const ProductSection = () => {
               {/* Left: Toggle, Title & Description */}
               <div className="max-w-2xl">
                 {/* Toggle Switch */}
-                <div className="">
+               
                 <div className="inline-flex items-center bg-white rounded-full p-1 shadow-md mb-4">
                   <button
                     onClick={() => handleTabSwitch("projects")}
@@ -74,7 +74,7 @@ const ProductSection = () => {
                   >
                     Services
                   </button>
-                </div>
+             
                 </div>
                 {/* Animated Title & Description */}
                 <div
