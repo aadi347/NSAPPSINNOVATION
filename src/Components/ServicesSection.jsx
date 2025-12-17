@@ -109,7 +109,7 @@ const ServicesSection = () => {
     },
     {
       icon: Laptop,
-      title: 'Web Engineering',
+      title: 'Web Development',
       description:
         'Modern, scalable web platforms built with React, Node, and cloud-native architectures.',
     },
@@ -121,7 +121,7 @@ const ServicesSection = () => {
     },
     {
       icon: Glasses,
-      title: 'VR / AR Experiences',
+      title: 'VR Experiences',
       description:
         'Immersive 360° virtual reality and augmented reality solutions that transform how users interact with digital content.',
     },

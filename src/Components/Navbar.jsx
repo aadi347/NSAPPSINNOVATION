@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+
+import { useNavigate, useLocation } from "react-router-dom";
 
 const TopNavbar = () => {
   const [activeTab, setActiveTab] = useState("hero-section");
@@ -8,6 +9,35 @@ const TopNavbar = () => {
   const [isTopVisible, setIsTopVisible] = useState(true); // For logo and connect button
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Handle scroll from navigation state
+  useEffect(() => {
+    if (location.pathname === "/" && location.state?.scrollTo) {
+      const sectionId = location.state.scrollTo;
+      const element = document.getElementById(sectionId);
+
+      if (element) {
+        const navbarHeight = 80;
+        const targetPosition = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
+
+        // Small delay to ensure layout is ready
+        setTimeout(() => {
+          window.scrollTo({
+            top: targetPosition,
+            behavior: "smooth",
+          });
+          setActiveTab(sectionId);
+        }, 100);
+
+        // Clear state to prevent re-scroll on refresh? 
+        // Optional, but good practice. For now, keep it simple.
+        navigate(location.pathname, { replace: true, state: {} });
+      }
+    }
+  }, [location, navigate]);
 
   // Scroll hide/show effect
   useEffect(() => {
@@ -40,6 +70,16 @@ const TopNavbar = () => {
 
   // Smooth scroll to section
   const scrollToSection = (sectionId) => {
+    if (sectionId === "expanded-about") {
+      navigate("/expanded-about");
+      return;
+    }
+
+    if (location.pathname !== "/") {
+      navigate("/", { state: { scrollTo: sectionId } });
+      return;
+    }
+
     const element = document.getElementById(sectionId);
     if (element) {
       const navbarHeight = 80;
@@ -133,7 +173,7 @@ const TopNavbar = () => {
     },
     {
       name: "About",
-      id: "about-section",
+      id: "expanded-about",
       icon: (
         <svg
           className="w-5 h-5"
@@ -195,9 +235,8 @@ const TopNavbar = () => {
 
       {/* 2. Center Navbar */}
       <motion.div
-        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-[500] transition-all duration-300 ${
-          isMobileMenuOpen ? "w-[90%] md:w-auto" : "w-auto"
-        }`}
+        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-[500] transition-all duration-300 ${isMobileMenuOpen ? "w-[90%] md:w-auto" : "w-auto"
+          }`}
         animate={{
           y: isNavbarVisible ? 0 : -120,
           opacity: isNavbarVisible ? 1 : 0,
@@ -218,30 +257,83 @@ const TopNavbar = () => {
 
           {/* Navbar content */}
           <div className="relative px-2 py-2 flex flex-col items-center justify-center transition-all duration-300">
+            {/* Mobile Toggle & Active Tab (When collapsed) */}
+            <div className="flex items-center justify-between w-full md:w-auto md:hidden">
+              {!isMobileMenuOpen && (
+                <div className="flex items-center px-4 py-2 space-x-2">
+                  <div className="p-1.5 bg-white/40 rounded-full">
+                    {navItems.find((item) => item.id === activeTab)?.icon}
+                  </div>
+                  <span className="text-sm font-semibold text-gray-800">
+                    {navItems.find((item) => item.id === activeTab)?.name ||
+                      "Menu"}
+                  </span>
+                </div>
+              )}
+
+              <button
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className={`p-2 rounded-full transition-colors ${isMobileMenuOpen ? "ml-auto" : ""
+                  } hover:bg-white/30`}
+              >
+                <div
+                  className={`w-6 h-6 flex flex-col justify-center gap-[5px] transition-all duration-300 ${isMobileMenuOpen ? "rotate-90" : ""
+                    }`}
+                >
+                  {isMobileMenuOpen ? (
+                    <svg
+                      className="w-6 h-6 text-gray-800"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M6 18L18 6M6 6l12 12"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="w-6 h-6 text-gray-800"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 6h16M4 12h16m-7 6h7"
+                      />
+                    </svg>
+                  )}
+                </div>
+              </button>
+            </div>
+
             {/* Nav Items Container */}
             <div
-              className={`${
-                isMobileMenuOpen
-                  ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px] p-4 bg-white/80 backdrop-blur-md rounded-2xl lg:bg-transparent lg:p-0"
-                  : "hidden opacity-0 max-h-0"
-              } lg:flex lg:flex-row lg:items-center lg:space-x-4 lg:mt-0 lg:opacity-100 lg:max-h-none lg:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
+              className={`${isMobileMenuOpen
+                ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px]"
+                : "hidden opacity-0 max-h-0"
+                } md:flex md:flex-row md:items-center md:space-x-4 md:mt-0 md:opacity-100 md:max-h-none md:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
             >
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative flex lg:flex-col items-center justify-start lg:justify-center px-4 lg:px-2.5 py-3 lg:py-1.5 w-full lg:w-auto lg:min-w-[55px] rounded-xl lg:rounded-none hover:bg-white/40 lg:hover:bg-transparent transition-all duration-300 ease-out group ${
-                    activeTab === item.id
-                      ? "bg-white/60 lg:bg-transparent text-gray-800"
-                      : "text-gray-500 hover:text-gray-700"
-                  }`}
+                  className={`relative flex md:flex-col items-center justify-start md:justify-center px-4 md:px-2.5 py-3 md:py-1.5 w-full md:w-auto md:min-w-[55px] rounded-xl md:rounded-none hover:bg-white/40 md:hover:bg-transparent transition-all duration-300 ease-out group ${activeTab === item.id
+                    ? "bg-white/60 md:bg-transparent text-gray-800"
+                    : "text-gray-500 hover:text-gray-700"
+                    }`}
                 >
                   <div
-                    className={`transition-all duration-300 mr-3 lg:mr-0 ${
-                      activeTab === item.id
-                        ? "scale-105 drop-shadow-sm"
-                        : "group-hover:scale-105 group-hover:drop-shadow-sm"
-                    }`}
+                    className={`transition-all duration-300 mr-3 md:mr-0 ${activeTab === item.id
+                      ? "scale-105 drop-shadow-sm"
+                      : "group-hover:scale-105 group-hover:drop-shadow-sm"
+                      }`}
                   >
                     {React.cloneElement(item.icon, {
                       strokeWidth: activeTab === item.id ? 2 : 1.5,
@@ -249,11 +341,10 @@ const TopNavbar = () => {
                     })}
                   </div>
                   <span
-                    className={`text-sm lg:text-[10px] font-medium mt-0 lg:mt-0.5 transition-all duration-300 ${
-                      activeTab === item.id
-                        ? "opacity-100 font-semibold"
-                        : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
-                    }`}
+                    className={`text-sm md:text-[10px] font-medium mt-0 md:mt-0.5 transition-all duration-300 ${activeTab === item.id
+                      ? "opacity-100 font-semibold"
+                      : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
+                      }`}
                   >
                     {item.name}
                   </span>

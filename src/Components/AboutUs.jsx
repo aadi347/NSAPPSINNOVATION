@@ -1,9 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Lottie from 'lottie-react';
-// import CurveSVGManipulation from './Svgmanupulation';
 
-const CARD_TILT_MAX = 12; // degrees
+const CARD_TILT_MAX = 12;
 
 // 3D tilt hook
 const useTilt = () => {
@@ -35,7 +34,7 @@ const useTilt = () => {
   return { ref, handleMouseMove, handleMouseLeave };
 };
 
-// Shared Lottie wrapper: big size, no bg divs around (only this container)
+// Shared Lottie wrapper
 const BigLottie = ({ jsonUrl }) => {
   const [animationData, setAnimationData] = useState(null);
 
@@ -66,57 +65,58 @@ const BigLottie = ({ jsonUrl }) => {
         animationData={animationData}
         loop
         autoplay
-        className="w-[550px] h-[550px] md:w-[650px] md:h-[650px] -mt-16 drop-shadow-2xl"
+        className="w-[300px] h-[300px] sm:w-[400px] sm:h-[400px] md:w-[500px] md:h-[500px] lg:w-[550px] lg:h-[550px] xl:w-[650px] xl:h-[650px] -mt-8 sm:-mt-12 md:-mt-16 drop-shadow-2xl"
       />
     </motion.div>
   );
 };
 
-// Lottie for each section (from public)
+// Lottie for each section
 const WebDevLottie = () => <BigLottie jsonUrl="/WebDevDesign.json" />;
 const MobileAppLottie = () => <BigLottie jsonUrl="/MobileAppShowcase.json" />;
 const AILottie = () =>
   <BigLottie jsonUrl="/Man and robot with computers sitting together in workplace.json" />;
 
-// Who We Are View (no auto-scroll; fixed alignment/spacing)
-const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
+// Who We Are View - FIXED VERSION
+const WhoWeAreView = ({ whoWeAreRef }) => { // whoWeAreRef prop is unused now if we use internal ref, but let's keep it or remove it. Better to use internal ref.
+  const internalRef = useRef(null);
+  const isWhoWeAreInView = useInView(internalRef, { once: true, amount: 0.3 });
   const { ref: tiltRef, handleMouseMove, handleMouseLeave } = useTilt();
 
   return (
     <motion.div
       key="who-we-are"
-      ref={whoWeAreRef}
+      ref={internalRef}
       initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      animate={isWhoWeAreInView ? { opacity: 1, y: 0 } : {}}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="grid lg:grid-cols-[1.3fr_0.7fr] gap-12 items-start"
+      className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center"
     >
-      {/* Left Content - larger text, gray color */}
-<div className="flex flex-col justify-start pt-14">
-  <div className="max-w-[520px] space-y-8">
-    <p className="text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
-      <span className="font-semibold text-gray-800">NS Apps Innovations</span>{" "}
-      is a creative tech company focused on building modern websites, Android apps,
-      and AI tools with exceptional design and performance.
-    </p>
+      {/* Left Content */}
+      <div className="flex flex-col justify-start order-1 lg:order-1">
+        <div className="max-w-full space-y-4 sm:space-y-6 md:space-y-8">
+          <p className="text-xs sm:text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
+            <span className="font-semibold text-gray-800">NS Apps Innovations</span>{" "}
+            is a creative tech company focused on building modern websites, Android apps,
+            and AI tools with exceptional design and performance.
+          </p>
 
-    <p className="text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
-      We're a passionate team of developers and designers who believe in blending
-      innovation, creativity, and technology to craft experiences that truly stand out.
-    </p>
+          <p className="text-xs sm:text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
+            We're a passionate team of developers and designers who believe in blending
+            innovation, creativity, and technology to craft experiences that truly stand out.
+          </p>
 
-    <p className="text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
-      Our goal is simple — to turn bold ideas into interactive, meaningful digital
-      experiences that inspire.
-    </p>
-  </div>
-</div>
-
+          <p className="text-xs sm:text-sm font-normal tracking-wide text-gray-600 leading-relaxed">
+            Our goal is simple — to turn bold ideas into interactive, meaningful digital
+            experiences that inspire.
+          </p>
+        </div>
+      </div>
 
       {/* Right Side - 3D PNG Logo */}
       <motion.div
-        className="relative"
+        className="relative order-2 lg:order-2 w-full"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={isWhoWeAreInView ? { opacity: 1, scale: 1 } : {}}
         transition={{
@@ -129,23 +129,25 @@ const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
           ref={tiltRef}
           onMouseMove={handleMouseMove}
           onMouseLeave={handleMouseLeave}
-          className="bg-[#f8f9fa] rounded-2xl flex items-center justify-center min-h-[400px] transition-transform duration-150"
+          className="bg-[#f8f9fa] rounded-2xl flex items-center justify-center min-h-[300px] sm:min-h-[350px] md:min-h-[400px] transition-transform duration-150 w-full"
           style={{
             transform:
               'perspective(1000px) rotateX(var(--rotateX, 0deg)) rotateY(var(--rotateY, 0deg))',
             transformStyle: 'preserve-3d'
           }}
         >
-          <div className="relative text-center" style={{ transform: 'translateZ(40px)' }}>
+          <div className="relative text-center px-4" style={{ transform: 'translateZ(40px)' }}>
             <img
               src="/texture.png"
               alt="NS Apps Innovations"
-              className="w-48 h-48 mx-auto object-contain select-none pointer-events-none"
+              className="w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 mx-auto object-contain select-none pointer-events-none"
               draggable="false"
             />
 
-            <p className="mt-8 text-2xl font-bold text-gray-900">NS Apps Innovations</p>
-            <p className="mt-2 text-sm text-gray-500 uppercase tracking-wider">
+            <p className="mt-4 sm:mt-6 md:mt-8 text-lg sm:text-xl md:text-2xl font-bold text-gray-900">
+              NS Apps Innovations
+            </p>
+            <p className="mt-1 sm:mt-2 text-xs sm:text-sm text-gray-500 uppercase tracking-wider">
               Building the Future
             </p>
           </div>
@@ -156,27 +158,24 @@ const WhoWeAreView = ({ isWhoWeAreInView, whoWeAreRef }) => {
 };
 
 const AboutUsSection = () => {
-  const [activeTab, setActiveTab] = useState('who-we-are');
-  const [activeSection, setActiveSection] = useState('web-development');
-
-  // Refs for scroll animations
-  const whoWeAreRef = useRef(null);
-  const isWhoWeAreInView = useInView(whoWeAreRef, { once: true, amount: 0.3 });
+  const [activeTab, setActiveTab] = useState('what-we-do');
+  const [activeSection, setActiveSection] = useState('mobile-apps');
 
   const sections = [
-    {
-      id: 'web-development',
-      title: 'Modern Web Development',
-      description:
-        'We craft beautiful, interactive websites using React, Vite, and Tailwind CSS. From animated landing pages to complex dashboards, we build fast, responsive, and user-friendly web applications that make an impact.',
-      services: ['Landing Pages & Websites', 'Interactive UI/UX Design', 'Dashboard Development']
-    },
+ 
     {
       id: 'mobile-apps',
       title: 'Android App Development',
       description:
         'We develop native Android applications that deliver seamless user experiences. Our apps are built with performance, security, and scalability in mind, ensuring they work flawlessly across all devices.',
       services: ['Native Android Apps', 'App UI/UX Design', 'Firebase Integration']
+    },
+       {
+      id: 'web-development',
+      title: 'Modern Web Development',
+      description:
+        'We craft beautiful, interactive websites using React, Vite, and Tailwind CSS. From animated landing pages to complex dashboards, we build fast, responsive, and user-friendly web applications that make an impact.',
+      services: ['Landing Pages & Websites', 'Interactive UI/UX Design', 'Dashboard Development']
     },
     {
       id: 'ai-tools',
@@ -190,56 +189,25 @@ const AboutUsSection = () => {
   const currentSection = sections.find((section) => section.id === activeSection);
 
   return (
-    <section className="relative bg-gray-50 py-20 px-4 z-[10]" id="about-section">
+    <section className="relative bg-gray-50 py-12 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8 z-[10]" id="about-section">
       <div className="max-w-6xl mx-auto">
-        {/* Tab Navigation with Animated Underlines */}
+        {/* Tab Navigation */}
         <motion.div
-          className="text-left mb-16"
+          className="text-left mb-8 sm:mb-12 md:mb-16"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center space-x-12">
-            {/* WHO WE ARE Tab */}
-            <button
-              type="button"
-              onClick={() => setActiveTab('who-we-are')}
-              className="relative group"
-            >
-              <h3
-                className={`text-xs font-medium uppercase tracking-[0.2em] transition-colors duration-300 ${
-                  activeTab === 'who-we-are' ? 'text-gray-900' : 'text-gray-400'
-                } group-hover:text-gray-900`}
-              >
-                WHO WE ARE
-              </h3>
-
-              <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-indigo-500"
-                initial={false}
-                animate={{ scaleX: activeTab === 'who-we-are' ? 1 : 0, originX: 0 }}
-                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
-              />
-
-              <motion.div
-                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gray-300"
-                initial={{ scaleX: 0 }}
-                whileHover={{ scaleX: activeTab === 'who-we-are' ? 0 : 1 }}
-                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
-                style={{ originX: 0 }}
-              />
-            </button>
-
-            {/* WHAT WE DO Tab */}
+          <div className="flex items-center space-x-6 sm:space-x-8 md:space-x-12">
+            {/* WHAT WE DO Tab - Now First */}
             <button
               type="button"
               onClick={() => setActiveTab('what-we-do')}
               className="relative group"
             >
               <h3
-                className={`text-xs font-medium uppercase tracking-[0.2em] transition-colors duration-300 ${
-                  activeTab === 'what-we-do' ? 'text-gray-900' : 'text-gray-400'
-                } group-hover:text-gray-900`}
+                className={`text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-colors duration-300 ${activeTab === 'what-we-do' ? 'text-gray-900' : 'text-gray-400'
+                  } group-hover:text-gray-900`}
               >
                 WHAT WE DO
               </h3>
@@ -259,20 +227,41 @@ const AboutUsSection = () => {
                 style={{ originX: 0 }}
               />
             </button>
+
+            {/* WHO WE ARE Tab - Now Second */}
+            <button
+              type="button"
+              onClick={() => setActiveTab('who-we-are')}
+              className="relative group"
+            >
+              <h3
+                className={`text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-colors duration-300 ${activeTab === 'who-we-are' ? 'text-gray-900' : 'text-gray-400'
+                  } group-hover:text-gray-900`}
+              >
+                WHO WE ARE
+              </h3>
+
+              <motion.div
+                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-indigo-500"
+                initial={false}
+                animate={{ scaleX: activeTab === 'who-we-are' ? 1 : 0, originX: 0 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              />
+
+              <motion.div
+                className="absolute -bottom-2 left-0 right-0 h-0.5 bg-gray-300"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: activeTab === 'who-we-are' ? 0 : 1 }}
+                transition={{ duration: 0.3, ease: [0.4, 0, 0.2, 1] }}
+                style={{ originX: 0 }}
+              />
+            </button>
           </div>
         </motion.div>
 
         {/* Content Area */}
         <AnimatePresence mode="wait">
-          {/* WHO WE ARE CONTENT */}
-          {activeTab === 'who-we-are' && (
-            <WhoWeAreView
-              isWhoWeAreInView={isWhoWeAreInView}
-              whoWeAreRef={whoWeAreRef}
-            />
-          )}
-
-          {/* WHAT WE DO CONTENT */}
+          {/* WHAT WE DO CONTENT - Now First */}
           {activeTab === 'what-we-do' && (
             <motion.div
               key="what-we-do"
@@ -280,10 +269,10 @@ const AboutUsSection = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="grid lg:grid-cols-2 gap-16 items-start"
+              className="grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-start"
             >
-              {/* Left Content - FIXED HEIGHT */}
-              <motion.div className="space-y-8 min-h-[500px] flex flex-col">
+              {/* Left Content - Responsive Height */}
+              <motion.div className="space-y-6 sm:space-y-8 min-h-[400px] sm:min-h-[450px] md:min-h-[500px] flex flex-col">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeSection}
@@ -293,25 +282,24 @@ const AboutUsSection = () => {
                     transition={{ duration: 0.5 }}
                     className="flex-grow"
                   >
-                    <h2 className="text-5xl md:text-6xl font-normal text-black mb-8 leading-tight">
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-normal text-black mb-4 sm:mb-6 md:mb-8 leading-tight">
                       {currentSection.title}
                     </h2>
-                    <p className="text-base text-gray-500 leading-relaxed max-w-md">
+                    <p className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-full md:max-w-md">
                       {currentSection.description}
                     </p>
                   </motion.div>
                 </AnimatePresence>
 
                 {/* Service Navigation */}
-                <div className="space-y-6 pt-8">
+                <div className="space-y-4 sm:space-y-6 pt-4 sm:pt-6 md:pt-8">
                   {sections.map((section, index) => (
                     <motion.div
                       key={section.id}
-                      className={`font-normal text-base cursor-pointer transition-colors duration-300 ${
-                        activeSection === section.id
-                          ? 'text-indigo-600'
-                          : 'text-gray-400 hover:text-indigo-600'
-                      }`}
+                      className={`font-normal text-sm sm:text-base cursor-pointer transition-colors duration-300 ${activeSection === section.id
+                        ? 'text-indigo-600'
+                        : 'text-gray-400 hover:text-indigo-600'
+                        }`}
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1, duration: 0.4 }}
@@ -323,10 +311,10 @@ const AboutUsSection = () => {
                 </div>
               </motion.div>
 
-              {/* Right visual area - FIXED HEIGHT */}
-              <div className="relative h-[500px]">
+              {/* Right Visual Area - Responsive Height */}
+              <div className="relative h-[350px] sm:h-[400px] md:h-[450px] lg:h-[500px]">
                 <motion.div
-                  className=""
+                  className="h-full"
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.6 }}
@@ -351,12 +339,13 @@ const AboutUsSection = () => {
               </div>
             </motion.div>
           )}
+
+          {/* WHO WE ARE CONTENT - Now Second */}
+          {activeTab === 'who-we-are' && (
+            <WhoWeAreView />
+          )}
         </AnimatePresence>
       </div>
-
-      {/* <div className="absolute left-0 bottom-0 top-8/9 w-full z-0">
-        <CurveSVGManipulation />
-      </div> */}
     </section>
   );
 };

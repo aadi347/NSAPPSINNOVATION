@@ -42,7 +42,7 @@ const ProductSection = () => {
     <div className="">
       <div
         id="projects-section"
-        className="relative w-full rounded-t-[50px] min-h-screen bg-gray-200 overflow-hidden flex flex-col justify-center py-16 md:py-20"
+        className="relative w-full  min-h-screen bg-[#f9fafb] overflow-hidden flex flex-col justify-center py-16 md:py-20"
       >
         {/* Main Container with Padding */}
         <div className="container mx-auto px-6 md:px-10 lg:px-14 xl:px-16">
@@ -52,13 +52,14 @@ const ProductSection = () => {
               {/* Left: Toggle, Title & Description */}
               <div className="max-w-2xl">
                 {/* Toggle Switch */}
+                <div className="">
                 <div className="inline-flex items-center bg-white rounded-full p-1 shadow-md mb-4">
                   <button
                     onClick={() => handleTabSwitch("projects")}
                     className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${
                       activeTab === "projects"
                         ? "bg-gray-900 text-white shadow-md"
-                        : "text-gray-600 hover:text-gray-900"
+                        : "text-gray-600 h over:text-gray-900"
                     }`}
                   >
                     Projects
@@ -74,7 +75,7 @@ const ProductSection = () => {
                     Services
                   </button>
                 </div>
-
+                </div>
                 {/* Animated Title & Description */}
                 <div
                   className={`transition-all duration-500 ${

@@ -9,6 +9,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const GetInTouchSection = () => {
   const containerRef = useRef(null);
+  const marqueeRef = useRef(null);
   const imageContainerRef = useRef(null);
   const imageRef = useRef(null);
   const chatBubblesRef = useRef([]);
@@ -35,83 +36,102 @@ const GetInTouchSection = () => {
 
 
     const ctx = gsap.context(() => {
-      // Image section appears
+      // Continuous marquee animation for text - Right to Left
+      if (marqueeRef.current) {
+        const marqueeContent = marqueeRef.current.querySelector('.marquee-content');
+        const contentWidth = marqueeContent.offsetWidth;
+        
+        gsap.to(marqueeContent, {
+          x: -contentWidth / 2,
+          duration: 30, // Slower animation (increased from 20 to 30)
+          ease: "none",
+          repeat: -1,
+        });
+      }
+
+
+      // Image container appears - WITH SCROLL TRIGGER
       gsap.fromTo(
         imageContainerRef.current,
-        { opacity: 0, scale: 0.8 },
+        { opacity: 0, scale: 0.85 },
         {
           opacity: 1,
           scale: 1,
           ease: "power2.out",
-          duration: 1,
+          duration: 2,
           force3D: true,
           scrollTrigger: {
             trigger: imageContainerRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none"
+            start: "top 95%",
+            end: "top 45%",
+            scrub: 2.5,
+            once: true
           }
         }
       );
 
 
-      // Image itself reveals
+      // Image itself reveals - WITH SCROLL TRIGGER
       gsap.fromTo(
         imageRef.current,
-        { scale: 1.2, opacity: 0 },
+        { scale: 1.3, opacity: 0 },
         {
           scale: 1,
           opacity: 1,
           ease: "power2.out",
-          duration: 0.8,
+          duration: 2,
           force3D: true,
           scrollTrigger: {
             trigger: imageRef.current,
-            start: "top 75%",
-            toggleActions: "play none none none"
+            start: "top 90%",
+            end: "top 40%",
+            scrub: 2.5,
+            once: true
           }
         }
       );
 
 
-      // Animate each bubble individually with scroll trigger
+      // Animate each bubble individually - WITH SCROLL TRIGGER
       const validBubbles = chatBubblesRef.current.filter(el => el !== null);
 
 
       validBubbles.forEach((bubble, index) => {
         if (bubble) {
-          // Entrance animation
+          // Entrance animation with slower scrub
           gsap.fromTo(
             bubble,
             {
-              y: 50,
+              y: 100,
               opacity: 0,
-              scale: 0.5
+              scale: 0.6
             },
             {
               y: 0,
               opacity: 1,
               scale: 1,
-              ease: "back.out(1.7)",
-              duration: 0.6,
-              delay: index * 0.15, // Stagger delay
+              ease: "power2.out",
+              duration: 2,
               force3D: true,
               scrollTrigger: {
                 trigger: bubble,
-                start: "top 85%",
-                toggleActions: "play none none none"
+                start: "top 95%",
+                end: "top 35%",
+                scrub: 2.5,
+                once: true
               }
             }
           );
 
 
-          // Floating animation (starts after entrance)
+          // Floating animation (starts after element is visible)
           gsap.to(bubble, {
             y: "+=8",
-            duration: 2 + (index * 0.2),
+            duration: 2.5 + (index * 0.3),
             repeat: -1,
             yoyo: true,
             ease: "sine.inOut",
-            delay: (index * 0.15) + 0.6, // Wait for entrance to finish
+            delay: 1.5,
             force3D: true
           });
         }
@@ -140,19 +160,26 @@ const GetInTouchSection = () => {
       className="relative min-h-screen bg-[#ffffff] overflow-hidden py-20"
       id="get-in-touch"
     >
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Static Text - Fits on Screen */}
-        <div className="relative z-10 mb-16 text-center">
-          <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-black text-black leading-tight tracking-tighter">
-            GET IN TOUCH
-          </h1>
-          <h1 className="text-[clamp(2.5rem,8vw,6rem)] font-black text-black leading-tight tracking-tighter">
-            WITH NS APPS INNOVATIONS
-          </h1>
+      {/* Scrolling Marquee Text Section - Full text with slow right to left animation and slight tilt */}
+      <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 py-2 mb-6 -rotate-2">
+        <div ref={marqueeRef} className="relative whitespace-nowrap will-change-transform">
+          <div className="marquee-content inline-flex items-center">
+            {/* Repeat the full text multiple times for seamless loop */}
+            {[...Array(3)].map((_, i) => (
+              <React.Fragment key={i}>
+                <h1 className="text-[clamp(4rem,8vw,10rem)] font-black text-white uppercase tracking-tight mx-6 leading-none" style={{ fontFamily: 'Arial Black, sans-serif', letterSpacing: '0.02em' }}>
+                  GET IN TOUCH WITH NS APPS INNOVATIONS
+                </h1>
+                <span className="text-[clamp(4rem,8vw,10rem)] font-black text-white mx-8">•</span>
+              </React.Fragment>
+            ))}
+          </div>
         </div>
+      </div>
 
 
-        {/* Image Section with Chat Bubbles */}
+      <div className="max-w-7xl mx-auto px-4">
+        {/* Image Section with Chat Bubbles - Elements moved further apart */}
         <div
           ref={imageContainerRef}
           className="relative flex items-center justify-center px-6"
@@ -171,8 +198,8 @@ const GetInTouchSection = () => {
             />
 
 
-            {/* Left Side - Text Bubbles */}
-            <div className="absolute left-4 md:left-8 lg:left-12 xl:left-20 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-sm hidden md:block z-10">
+            {/* Left Side - Text Bubbles (moved further) */}
+            <div className="absolute left-0 md:left-2 lg:left-4 xl:left-8 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-sm hidden md:block z-10">
               {/* Nishant Badge */}
               <div
                 ref={el => chatBubblesRef.current[0] = el}
@@ -232,8 +259,8 @@ const GetInTouchSection = () => {
             </div>
 
 
-            {/* Right Side - Text Bubbles */}
-            <div className="absolute right-4 md:right-8 lg:right-12 xl:right-20 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
+            {/* Right Side - Text Bubbles (moved further) */}
+            <div className="absolute right-0 md:right-2 lg:right-4 xl:right-8 top-[15%] space-y-4 max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
               {/* Developer Badge */}
               <div
                 ref={el => chatBubblesRef.current[5] = el}

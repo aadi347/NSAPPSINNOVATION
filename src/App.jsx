@@ -16,10 +16,12 @@ import GetInTouchSection from "./Components/GetInTouchSection";
 import ContactUs from "./Components/ContactUs";
 import ServicesSection from "./Components/ServicesSection";
 import ProductSection from "./Components/ProductSection";
+import ExpandedAboutUs from "./Components/ExpandedAboutUs";
 
 import ProductDetail from "./Components/ProductDetail";
 import ServiceDetail from "./Components/ServiceDetail";
 import CursorDot from "./Components/Cursor";
+
 // Scroll to top on route change
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,7 +65,7 @@ function App() {
                   <AboutUs />
                   <ServicesSection />
                   <ProductSection />
-                
+
                   <Team />
                   <GetInTouchSection />
                   <ContactUs />
@@ -75,6 +77,7 @@ function App() {
 
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/service/:id" element={<ServiceDetail />} />
+            <Route path="/expanded-about" element={<ExpandedAboutUs />} />
 
           </Routes>
         </>
