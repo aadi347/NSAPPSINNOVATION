@@ -176,6 +176,7 @@ const GetInTouchSection = () => {
               ref={imageRef}
               src={completeteam}
               alt="NS Apps Innovations Team"
+              loading="lazy"
               className="relative w-full max-w-[1400px] h-auto rounded-3xl object-contain"
               style={{ willChange: 'transform', transform: 'translateZ(0)', zIndex: 1 }}
             />
@@ -207,7 +208,7 @@ const GetInTouchSection = () => {
               {/* Subtext */}
               <div
                 ref={el => chatBubblesRef.current[3] = el}
-                className="text-gray-500 text-xs md:text-sm px-2 pt-52"
+                className="text-gray-500 text-xs md:text-sm px-2 pt-80"
                 style={{ willChange: 'transform' }}
               >
                 Let's create something amazing together!
@@ -239,7 +240,7 @@ const GetInTouchSection = () => {
             </div>
 
             {/* Right Side - Text Bubbles - Positioned to avoid faces */}
-            <div className="absolute right-2 md:right-4 lg:right-8 xl:right-16 top-[52%] space-y-4 max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
+            <div className="absolute right-2 md:right-4 lg:right-8 xl:right-16 top-[80%] space-y-4 max-w-[200px] sm:max-w-[240px] md:max-w-[280px] lg:max-w-md hidden md:block z-10">
               {/* Developer Badge */}
               <div
                 ref={el => chatBubblesRef.current[6] = el}

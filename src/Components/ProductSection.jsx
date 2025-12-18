@@ -104,7 +104,7 @@ const ProductSection = () => {
                 </button>
                 <button
                   onClick={() => swiperRef.current?.slideNext()}
-                  className="swiper-button-next-custom group w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-900 shadow-lg hover:shadow-xl border border-gray-900 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:border-blue-600"
+                  className="swiper-button-next-custom group w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-900 shadow-lg hover:shadow-xl border border-gray-900 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-gray-900 hover:border-gray-900"
                   aria-label="Next slide"
                 >
                   <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white transition-colors" />
@@ -201,7 +201,7 @@ const ProductSection = () => {
                           }/${item.id}`}
                           className="inline-flex items-center gap-2 group/btn"
                         >
-                          <span className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-black transition-all duration-300 group-hover/btn:bg-blue-600 group-hover/btn:text-white">
+                          <span className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-black transition-all duration-300 group-hover/btn:bg-gray-900 group-hover/btn:text-white">
                             <ArrowUpRight className="w-4 h-4" />
                           </span>
                           <span className="text-sm font-medium">
