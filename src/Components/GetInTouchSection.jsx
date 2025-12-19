@@ -90,7 +90,7 @@ const GetInTouchSection = () => {
         if (bubble) {
           // Entrance animation from sides
           const isLeftSide = index < 6;
-          
+
           gsap.fromTo(
             bubble,
             {
@@ -143,19 +143,19 @@ const GetInTouchSection = () => {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[120vh] bg-[#ffffff] overflow-hidden py-20"
+      className="relative min-h-[120vh] bg-[#ffffff] overflow-hidden py-20 "
       id="get-in-touch"
     >
       {/* Scrolling Marquee Text Section */}
-      <div className="relative w-full overflow-hidden bg-gradient-to-br from-gray-900 via-black to-gray-800 py-2 mb-12 -rotate-2">
+      <div className="relative py-6 bg-black -rotate-2 scale-105 z-20 mb-20 shadow-2xl border-y-4 border-white">
         <div ref={marqueeRef} className="relative whitespace-nowrap will-change-transform">
           <div className="marquee-content inline-flex items-center">
             {[...Array(3)].map((_, i) => (
               <React.Fragment key={i}>
-                <h1 className="text-[clamp(4rem,8vw,10rem)] font-black text-white uppercase tracking-tight mx-6 leading-none" style={{ fontFamily: 'Arial Black, sans-serif', letterSpacing: '0.02em' }}>
+                <h1 className="text-[clamp(4rem,8vw,6rem)] font-black text-white uppercase tracking-tight mx-6 leading-none" style={{ fontFamily: 'Arial Black, sans-serif', letterSpacing: '0.02em' }}>
                   GET IN TOUCH WITH NS APPS INNOVATIONS
                 </h1>
-                <span className="text-[clamp(4rem,8vw,10rem)] font-black text-white mx-8">•</span>
+                <span className="text-[clamp(4rem,8vw,6rem)] font-black text-white mx-8">•</span>
               </React.Fragment>
             ))}
           </div>
@@ -170,7 +170,7 @@ const GetInTouchSection = () => {
           style={{ transform: 'translateZ(0)' }}
         >
           <div className="relative w-full flex items-center justify-center">
-            
+
             {/* Center Image - Full Width with Proper Aspect Ratio */}
             <img
               ref={imageRef}
@@ -189,18 +189,18 @@ const GetInTouchSection = () => {
                 className="text-gray-400 text-xs md:text-sm px-2 italic"
                 style={{ willChange: 'transform' }}
               >
-           
+
               </div>
 
-             
-              
+
+
               {/* Text Bubble */}
               <div
                 ref={el => chatBubblesRef.current[2] = el}
                 className="bg-white absolute text-gray-900 p-4 md:p-2 top-0  rounded-2xl shadow-xl border border-gray-100"
                 style={{ willChange: 'transform' }}
               >
-                <p className="text-sm md:text-base leading-relaxed whitespace-nowrap">
+                <p className="text-sm sm:text-base text-gray-500 leading-relaxed px-2 whitespace-nowrap">
                   Looking to build your next web or mobile app?
                 </p>
               </div>
@@ -258,10 +258,10 @@ const GetInTouchSection = () => {
                 style={{ willChange: 'transform' }}
               >
                 <h3 className="text-gray-900 text-base md:text-lg font-bold">Why NS Apps Innovations?</h3>
-                <p className="text-gray-700 text-xs md:text-sm leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-500 leading-relaxed ">
                   Specialized in <span className="text-gray-900 font-semibold">React, Node.js, and Android development</span> with expertise in building scalable web and mobile applications.
                 </p>
-                <p className="text-gray-700 text-xs md:text-sm leading-relaxed">
+                <p className="text-sm sm:text-base text-gray-500 leading-relaxed ">
                   From concept to deployment, we deliver modern, performant solutions that drive results.
                 </p>
               </div>
@@ -286,7 +286,7 @@ const GetInTouchSection = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> 
       </div>
     </section>
   );

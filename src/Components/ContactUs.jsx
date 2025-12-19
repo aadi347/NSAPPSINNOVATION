@@ -44,10 +44,10 @@ const ContactUs = () => {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
           {/* heading and paragraph on the left hand side - Hidden on mobile */}
           <div className="hidden lg:block w-full lg:w-1/2 pr-0 lg:pr-12 transform lg:translate-y-12">
-            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-gray-900 mb-6">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900 mb-6">
               Contact Us
             </h2>
-            <p className="text-gray-500 text-xs leading-relaxed max-w-md">
+            <p className="text-sm sm:text-base text-gray-500 leading-relaxed ">
               We are an industry-leading company that values honesty, integrity,
               and efficiency. Building quality products and caring.
             </p>

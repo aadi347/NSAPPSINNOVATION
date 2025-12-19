@@ -65,9 +65,7 @@ const TestimonialCard = ({ t }) => {
 
       <div className="flex-grow mb-8 pt-6 relative z-10">
         <p className="text-gray-600 text-xs md:text-sm leading-relaxed">
-          {shouldTruncate && !isExpanded
-            ? `${t.quote.substring(0, maxLength)}...`
-            : t.quote}
+          {isExpanded ? t.quote : `${t.quote.slice(0, maxLength)}${shouldTruncate ? "..." : ""}`}
         </p>
         {shouldTruncate && (
           <button
@@ -115,15 +113,15 @@ const TestimonialCarousel = () => {
   const swiperRef = useRef(null);
 
   return (
-    <section className="bg-gray-50 py-16 md:py-20 relative overflow-hidden">
-      <div className="container mx-auto px-6 md:px-10 lg:px-14 xl:px-16">
+    <section className="bg-gray-50 py-16 md:py-24 relative overflow-hidden">
+      <div className="container mx-auto px-6 md:px-6 lg:px-8 xl:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 md:mb-16">
           <div className="max-w-2xl">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900 mb-3 ">
               Testimonials
             </h2>
             <p className="text-gray-600 text-sm md:text-base leading-relaxed">
-              Trusted by government organizations and enterprises across India.
+              Trusted by industry leaders and government departments for delivering impactful digital solutions.
             </p>
           </div>
 
@@ -137,7 +135,7 @@ const TestimonialCarousel = () => {
             </button>
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-900 shadow-lg hover:shadow-xl border border-gray-900 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-blue-600 hover:border-blue-600"
+              className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-gray-900 shadow-lg hover:shadow-xl border border-gray-900 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-gray-900 hover:border-gray-900"
               aria-label="Next slide"
             >
               <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-white transition-colors" />

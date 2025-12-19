@@ -29,7 +29,7 @@ const Hero = () => {
   const opacity = useTransform(scrollY, [0, 300], [1, 0]);
 
   const teamMembers = [
-    { id: 1, image: "/Aditya.jpeg", name: "Team Member 1" },
+    { id: 1, image: "/aditya.png", name: "Team Member 1" },
     { id: 2, image: "/Abhishek.jpeg", name: "Team Member 2" },
     { id: 3, image: "/AdityaRaj.jpeg", name: "Team Member 3" },
     { id: 4, image: "/Manish.jpeg", name: "Team Member 4" },

@@ -190,7 +190,7 @@ const ProductDetail = () => {
             </header>
 
             {/* --- CREATIVE SEPARATOR: INFINITE MARQUEE --- */}
-            <div className="relative py-12 bg-black -rotate-2 scale-105 z-20 mb-20 shadow-2xl border-y-4 border-white">
+            <div className="relative py-10 bg-black -rotate-2 scale-105 z-20 mb-20 shadow-2xl border-y-4 border-white">
                 <div className="marquee-inner flex whitespace-nowrap">
                     {/* Repeat text enough times to fill width */}
                     {[...Array(8)].map((_, i) => (

@@ -67,7 +67,7 @@ const ServiceCard = ({ icon: Icon, title, description, index, clipStyle }) => {
               </h3>
 
 
-              <p className="text-gray-600 group-hover:text-gray-300 transition-colors duration-500 leading-relaxed text-sm">
+              <p className="text-sm sm:text-base text-gray-500 leading-relaxed group-hover:text-gray-300 transition-colors duration-500">
                 {description}
               </p>
             </div>
@@ -157,7 +157,7 @@ const ServicesSection = () => {
 
 
           {/* Services Grid */}
-          <div className="max-w-7xl mx-auto flex justify-center items-center flex-wrap gap-10 relative z-10 mt-20">
+          <div className="max-w-7xl mx-auto  flex justify-center items-center flex-wrap gap-10 relative z-10 mt-20">
             {services.map((service, index) => (
               <ServiceCard
                 key={index}

@@ -162,7 +162,7 @@ const AboutUsSection = () => {
   const [activeSection, setActiveSection] = useState('mobile-apps');
 
   const sections = [
- 
+
     {
       id: 'mobile-apps',
       title: 'Android App Development',
@@ -170,7 +170,7 @@ const AboutUsSection = () => {
         'We develop native Android applications that deliver seamless user experiences. Our apps are built with performance, security, and scalability in mind, ensuring they work flawlessly across all devices.',
       services: ['Native Android Apps', 'App UI/UX Design', 'Firebase Integration']
     },
-       {
+    {
       id: 'web-development',
       title: 'Modern Web Development',
       description:

@@ -281,7 +281,7 @@ const Team = () => {
   };
 
   return (
-    <div className="w-full max-w-5xl mx-auto py-10 mb-20 px-4 relative z-10 bg-white" ref={containerRef} id="team-section">
+    <div className="w-full max-w-5xl mx-auto py-10 mb-20 px-4 relative mt-24 z-10 bg-white" ref={containerRef} id="team-section">
       <div
         ref={ownerRef}
         className="flex items-center gap-7 pb-8 mb-8 border-b border-gray-300 transition-all duration-300 hover:border-gray-400"
@@ -303,7 +303,7 @@ const Team = () => {
             {owner.name}
           </div>
           <div className="italic text-gray-700 text-xl mb-2">{owner.title}</div>
-          <div className="text-gray-600 text-base leading-relaxed max-w-[400px]">
+          <div className="text-sm sm:text-base text-gray-500 leading-relaxed max-w-[400px]">
             {owner.desc}
           </div>
         </div>

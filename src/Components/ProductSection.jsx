@@ -45,46 +45,43 @@ const ProductSection = () => {
         className="relative w-full  min-h-screen bg-[#f9fafb] overflow-hidden flex flex-col justify-center py-16 md:py-20"
       >
         {/* Main Container with Padding */}
-        <div className="container mx-auto px-6 md:px-10 lg:px-14 xl:px-16">
+        <div className="container mx-auto px-2 md:px-4 lg:px-6 xl:px-8">
           {/* Section Header with Navigation */}
           <div className="mb-8 md:mb-10 z-10 relative">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
               {/* Left: Toggle, Title & Description */}
               <div className="max-w-2xl">
                 {/* Toggle Switch */}
-               
+
                 <div className="inline-flex items-center bg-white rounded-full p-1 shadow-md mb-4">
                   <button
                     onClick={() => handleTabSwitch("projects")}
-                    className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${
-                      activeTab === "projects"
-                        ? "bg-gray-900 text-white shadow-md"
-                        : "text-gray-600 h over:text-gray-900"
-                    }`}
+                    className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${activeTab === "projects"
+                      ? "bg-gray-900 text-white shadow-md"
+                      : "text-gray-600 h over:text-gray-900"
+                      }`}
                   >
                     Projects
                   </button>
                   <button
                     onClick={() => handleTabSwitch("services")}
-                    className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${
-                      activeTab === "services"
-                        ? "bg-gray-900 text-white shadow-md"
-                        : "text-gray-600 hover:text-gray-900"
-                    }`}
+                    className={`px-4 md:px-6 py-2 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 ${activeTab === "services"
+                      ? "bg-gray-900 text-white shadow-md"
+                      : "text-gray-600 hover:text-gray-900"
+                      }`}
                   >
                     Services
                   </button>
-             
+
                 </div>
                 {/* Animated Title & Description */}
                 <div
-                  className={`transition-all duration-500 ${
-                    isAnimating
-                      ? "opacity-0 translate-y-4 blur-sm"
-                      : "opacity-100 translate-y-0 blur-0"
-                  }`}
+                  className={`transition-all duration-500 ${isAnimating
+                    ? "opacity-0 translate-y-4 blur-sm"
+                    : "opacity-100 translate-y-0 blur-0"
+                    }`}
                 >
-                  <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-gray-900 tracking-tight mb-3 leading-tight">
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-gray-900 tracking-tight mb-3">
                     {displayTitle}
                   </h2>
                   <p className="text-gray-600 text-sm md:text-base leading-relaxed max-w-xl">
@@ -115,11 +112,10 @@ const ProductSection = () => {
 
           {/* Swiper Container with Animation */}
           <div
-            className={`relative z-10 transition-all duration-500 ${
-              isAnimating
-                ? "opacity-0 scale-95 blur-sm"
-                : "opacity-100 scale-100 blur-0"
-            }`}
+            className={`relative z-10 transition-all duration-500 ${isAnimating
+              ? "opacity-0 scale-95 blur-sm"
+              : "opacity-100 scale-100 blur-0"
+              }`}
             key={activeTab}
           >
             <Swiper
@@ -196,9 +192,8 @@ const ProductSection = () => {
                         </h3>
 
                         <Link
-                          to={`/${
-                            activeTab === "projects" ? "product" : "service"
-                          }/${item.id}`}
+                          to={`/${activeTab === "projects" ? "product" : "service"
+                            }/${item.id}`}
                           className="inline-flex items-center gap-2 group/btn"
                         >
                           <span className="w-9 h-9 bg-white rounded-full flex items-center justify-center text-black transition-all duration-300 group-hover/btn:bg-gray-900 group-hover/btn:text-white">

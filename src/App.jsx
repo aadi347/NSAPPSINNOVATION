@@ -8,7 +8,7 @@ import {
 import Navbar from "./Components/Navbar";
 import Hero from "./Components/Spline";
 import AboutUs from "./Components/AboutUs";
-// import TestimonialCarousel from "./Components/Testimonial";
+import TestimonialCarousel from "./Components/Testimonial";
 import Footer from "./Components/Footer";
 import SplashScreen from "./Components/SplashScreen";
 import Team from "./Components/Team";
@@ -17,10 +17,10 @@ import ContactUs from "./Components/ContactUs";
 import ServicesSection from "./Components/ServicesSection";
 import ProductSection from "./Components/ProductSection";
 import ExpandedAboutUs from "./Components/ExpandedAboutUs";
-
 import ProductDetail from "./Components/ProductDetail";
 import ServiceDetail from "./Components/ServiceDetail";
 import CursorDot from "./Components/Cursor";
+// import VideoSection from "./Components/Videosection";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -61,6 +61,7 @@ function App() {
               element={
                 <>
                   <Hero />
+                  {/* <VideoSection /> */}
                   <CursorDot />
                   <AboutUs />
                   <ServicesSection />
@@ -69,7 +70,7 @@ function App() {
                   <Team />
                   <GetInTouchSection />
                   <ContactUs />
-                  {/* <TestimonialCarousel /> */}
+                  <TestimonialCarousel />
                   <Footer />
                 </>
               }
