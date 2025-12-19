@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import { useNavigate, useLocation } from "react-router-dom";
-import { Menu, XCircle,X } from "lucide-react";
-
+import { Menu, X } from "lucide-react";
 
 const TopNavbar = () => {
   const [activeTab, setActiveTab] = useState("hero-section");
@@ -23,7 +22,8 @@ const TopNavbar = () => {
 
       if (element) {
         const navbarHeight = 80;
-        const targetPosition = element.getBoundingClientRect().top + window.scrollY - navbarHeight;
+        const targetPosition =
+          element.getBoundingClientRect().top + window.scrollY - navbarHeight;
 
         // Small delay to ensure layout is ready
         setTimeout(() => {
@@ -34,7 +34,7 @@ const TopNavbar = () => {
           setActiveTab(sectionId);
         }, 100);
 
-        // Clear state to prevent re-scroll on refresh? 
+        // Clear state to prevent re-scroll on refresh?
         // Optional, but good practice. For now, keep it simple.
         navigate(location.pathname, { replace: true, state: {} });
       }
@@ -237,8 +237,9 @@ const TopNavbar = () => {
 
       {/* 2. Center Navbar */}
       <motion.div
-        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-[500] transition-all duration-300 ${isMobileMenuOpen ? "w-[90%] md:w-auto" : "w-auto"
-          }`}
+        className={`fixed top-4 left-1/2 transform -translate-x-1/2 z-[500] transition-all duration-300 ${
+          isMobileMenuOpen ? "w-[90%] md:w-auto" : "w-auto"
+        }`}
         animate={{
           y: isNavbarVisible ? 0 : -120,
           opacity: isNavbarVisible ? 1 : 0,
@@ -275,12 +276,14 @@ const TopNavbar = () => {
 
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-full transition-colors ${isMobileMenuOpen ? "ml-auto" : ""
-                  } hover:bg-white/30`}
+                className={`p-2 rounded-full transition-colors ${
+                  isMobileMenuOpen ? "ml-auto" : ""
+                } hover:bg-white/30`}
               >
                 <div
-                  className={`w-6 h-6 flex flex-col justify-center gap-[5px] transition-all duration-300 ${isMobileMenuOpen ? "rotate-90" : ""
-                    }`}
+                  className={`w-6 h-6 flex flex-col justify-center gap-[5px] transition-all duration-300 ${
+                    isMobileMenuOpen ? "rotate-90" : ""
+                  }`}
                 >
                   {isMobileMenuOpen ? (
                     <svg
@@ -317,25 +320,28 @@ const TopNavbar = () => {
 
             {/* Nav Items Container */}
             <div
-              className={`${isMobileMenuOpen
-                ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px]"
-                : "hidden opacity-0 max-h-0"
-                } md:flex md:flex-row md:items-center md:space-x-4 md:mt-0 md:opacity-100 md:max-h-none md:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
+              className={`${
+                isMobileMenuOpen
+                  ? "flex flex-col w-full mt-2 space-y-2 opacity-100 max-h-[500px]"
+                  : "hidden opacity-0 max-h-0"
+              } md:flex md:flex-row md:items-center md:space-x-4 md:mt-0 md:opacity-100 md:max-h-none md:w-auto overflow-hidden transition-all duration-500 ease-in-out`}
             >
               {navItems.map((item, idx) => (
                 <button
                   key={idx}
                   onClick={() => scrollToSection(item.id)}
-                  className={`relative flex md:flex-col items-center justify-start md:justify-center px-4 md:px-2.5 py-3 md:py-1.5 w-full md:w-auto md:min-w-[55px] rounded-xl md:rounded-none hover:bg-white/40 md:hover:bg-transparent transition-all duration-300 ease-out group ${activeTab === item.id
-                    ? "bg-white/60 md:bg-transparent text-gray-800"
-                    : "text-gray-500 hover:text-gray-700"
-                    }`}
+                  className={`relative flex md:flex-col items-center justify-start md:justify-center px-4 md:px-2.5 py-3 md:py-1.5 w-full md:w-auto md:min-w-[55px] rounded-xl md:rounded-none hover:bg-white/40 md:hover:bg-transparent transition-all duration-300 ease-out group ${
+                    activeTab === item.id
+                      ? "bg-white/60 md:bg-transparent text-gray-800"
+                      : "text-gray-500 hover:text-gray-700"
+                  }`}
                 >
                   <div
-                    className={`transition-all duration-300 mr-3 md:mr-0 ${activeTab === item.id
-                      ? "scale-105 drop-shadow-sm"
-                      : "group-hover:scale-105 group-hover:drop-shadow-sm"
-                      }`}
+                    className={`transition-all duration-300 mr-3 md:mr-0 ${
+                      activeTab === item.id
+                        ? "scale-105 drop-shadow-sm"
+                        : "group-hover:scale-105 group-hover:drop-shadow-sm"
+                    }`}
                   >
                     {React.cloneElement(item.icon, {
                       strokeWidth: activeTab === item.id ? 2 : 1.5,
@@ -343,10 +349,11 @@ const TopNavbar = () => {
                     })}
                   </div>
                   <span
-                    className={`text-sm md:text-[10px] font-medium mt-0 md:mt-0.5 transition-all duration-300 ${activeTab === item.id
-                      ? "opacity-100 font-semibold"
-                      : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
-                      }`}
+                    className={`text-sm md:text-[10px] font-medium mt-0 md:mt-0.5 transition-all duration-300 ${
+                      activeTab === item.id
+                        ? "opacity-100 font-semibold"
+                        : "opacity-60 group-hover:opacity-90 group-hover:font-medium"
+                    }`}
                   >
                     {item.name}
                   </span>
