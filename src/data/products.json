@@ -16,25 +16,57 @@
         "date": "Ongoing",
         "team": [
             {
-                "name": "Aditya Raj",
-                "role": "Lead Developer",
-                "image": "/Aditya.jpeg"
+                "name": "Nishant Shekhar",
+                "role": "Founder, NS Apps Innovations",
+                "image": "/Nishant.jpeg"
             },
             {
-                "name": "Manish Kumar",
-                "role": "UI/UX Designer",
-                "image": "/Manish.jpeg"
+                "name": "Amit Kumar Verma",
+                "role": "Frontend Developer",
+                "image": "/Amit.jpeg"
             },
             {
-                "name": "Abhishek",
+                "name": "Pratush Sinha",
                 "role": "Backend dev",
+                "image": "/Pratush.jpeg"
+            }, {
+                "name": "Abhishek Anand",
+                "role": "React Developer",
                 "image": "/Abhishek.jpeg"
+            },
+            {
+                "name": "Aditya Kumar",
+                "role": "React Developer",
+                "image": "/aditya.png"
+            },
+            {
+                "name": "Yuvika Kumari",
+                "role": "Frontend Developer",
+                "image": "/Yuvika.jpeg"
+            },
+            {
+                "name": "Priyanshu Shankar",
+                "role": "QA Specialist",
+                "image": "/Pratush.jpeg"
+            },
+            {
+                "name": "Abhinav Kumar",
+                "role": "QA Specialist",
+                "image": "/Abhinav.jpeg"
             }
         ],
         "images": [
-            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=800&q=80"
-        ]
+            "/Projects/StartupBihar3.png",
+            
+            "/Projects/StartupBihar2.png",
+            "/Projects/StartupBihar1.png",
+            "/Projects/StartupBihar4.png",
+            "/Projects/StartupBihar5.png",
+            "/Projects/StartupBihar6.png",
+            "/Projects/StartupBihar7.png"
+        ],
+
+        "link": "https://startupbihar.in/"
     },
     {
         "id": "buddha-samyak-darshan",
@@ -54,19 +86,26 @@
         "team": [
             {
                 "name": "Aditya Raj",
-                "role": "Project Manager",
-                "image": "/Aditya.jpeg"
+                "role": "Frontend Developer",
+                "image": "/aditya.png"
             },
             {
-                "name": "Rohan Gupta",
-                "role": "Architect",
-                "image": "/AdityaRaj.jpeg"
+                "name": "Manish Kumar",
+                "role": "Frontend Developer",
+                "image": "/Manish.jpeg"
             }
         ],
         "images": [
-            "https://images.unsplash.com/photo-1568226127025-452758661601?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1599837565318-67429bde8a6d?auto=format&fit=crop&w=800&q=80"
+            "/Projects/BudhaSamyak1.png",
+            "/Projects/BudhaSamyak2.png",
+            "/Projects/BudhaSamyak3.png",
+            "/Projects/BudhaSamyak4.png",
+            "/Projects/BudhaSamyak5.png",
+            "/Projects/BudhaSamyak6.png",
+            "/Projects/BudhaSamyak7.png"
         ]
+        ,
+        "link": "https://buddhasamyak.bihar.gov.in/"
     },
      {
         "id": "asia-hockey",
@@ -87,18 +126,23 @@
         "team": [
             {
                 "name": "Manish Kumar",
-                "role": "Lead Developer",
+                "role": "Frontend Developer",
                 "image": "/Manish.jpeg"
             },
             {
                 "name": "Aditya Raj",
-                "role": "Tech Lead",
+                "role": "Frontend Developer",
                 "image": "/Aditya.jpeg"
             }
         ],
         "images": [
-            "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80"
+            "/Projects/Hockey.png",
+            "/Projects/Hockey.png",
+            "/Projects/Hockey.png",
+            "/Projects/Hockey.png", 
+            "/Projects/Hockey.png",
+            "/Projects/Hockey.png",
+            "/Projects/Hockey.png"
         ]
     },
     {
@@ -134,9 +178,16 @@
             }
         ],
         "images": [
-            "https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?auto=format&fit=crop&w=800&q=80"
+            "/Projects/Bihar State Film Development and Finance Corporation1.png",
+            "/Projects/Bihar State Film Development and Finance Corporation2.png",
+            "/Projects/Bihar State Film Development and Finance Corporation3.png",
+            "/Projects/Bihar State Film Development and Finance Corporation4.png",
+            "/Projects/Bihar State Film Development and Finance Corporation5.png",
+            "/Projects/Bihar State Film Development and Finance Corporation6.png",
+            "/Projects/Bihar State Film Development and Finance Corporation7.png"
         ]
+        ,
+        "link": "https://biharfilm.web.app/"
     },
   
    
@@ -157,19 +208,25 @@
         "date": "2024",
         "team": [
             {
-                "name": "Abhishek",
-                "role": "Tech Lead",
-                "image": "/Abhishek.jpeg"
+                "name": "Pranav Kumar",
+                "role": "Frontend Developer",
+                "image": "/Pranav.jpeg"
             },
             {
-                "name": "Aditya Raj",
-                "role": "Historian",
-                "image": "/AdityaRaj.jpeg"
+                "name": "Abhishek Anand",
+                "role": "Frontend Developer",
+                "image": "/Abhishek.jpeg"
             }
         ],
         "images": [
-            "https://images.unsplash.com/photo-1590050752117-238cb0fb9dbb?auto=format&fit=crop&w=800&q=80",
-            "https://images.unsplash.com/photo-1622308644420-a94bb8a23663?auto=format&fit=crop&w=800&q=80"
-        ]
+            "/Projects/BiharHeritage1.png",
+            "/Projects/BiharHeritage2.png",
+            "/Projects/BiharHeritage3.png",
+            "/Projects/BiharHeritage4.png",
+            "/Projects/BiharHeritage5.png",
+            "/Projects/BiharHeritage6.png",
+            "/Projects/BiharHeritage7.png"
+        ],
+        "link": "https://bihar-heritage-project.vercel.app/"
     }
 ]

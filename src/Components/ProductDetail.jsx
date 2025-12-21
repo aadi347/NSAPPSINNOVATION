@@ -143,7 +143,7 @@ const ProductDetail = () => {
                      [transform:rotateZ(6deg)]"
               >
                 <img
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-xl object-contain"
                   src={stackImages[0]}
                   alt={`${product.title} - Card 1`}
                 />
@@ -159,7 +159,7 @@ const ProductDetail = () => {
                      [transform:rotateZ(6deg)]"
               >
                 <img
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-xl object-contain"
                   src={stackImages[1]}
                   alt={`${product.title} - Card 2`}
                 />
@@ -175,7 +175,7 @@ const ProductDetail = () => {
                      [transform:rotateZ(6deg)]"
               >
                 <img
-                  className="h-full w-full rounded-xl object-cover"
+                  className="h-full w-full rounded-xl object-cntain"
                   src={stackImages[2]}
                   alt={`${product.title} - Card 3`}
                 />
@@ -448,13 +448,13 @@ const ProductDetail = () => {
                   src={selectedImage.src}
                   controls
                   autoPlay
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-fit"
                 />
               ) : (
                 <img
                   src={selectedImage.src}
                   alt="Gallery Preview"
-                  className="w-full h-full object-contain"
+                  className="w-full h-full object-fit"
                 />
               )}
             </motion.div>
