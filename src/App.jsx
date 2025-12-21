@@ -20,6 +20,7 @@ import ExpandedAboutUs from "./Components/ExpandedAboutUs";
 import ProductDetail from "./Components/ProductDetail";
 import ServiceDetail from "./Components/ServiceDetail";
 import CursorDot from "./Components/Cursor";
+import AchievementSlider from "./Components/AchievementSlider";
 // import VideoSection from "./Components/Videosection";
 
 // Scroll to top on route change
@@ -65,6 +66,7 @@ function App() {
                   <CursorDot />
                   <AboutUs />
                   <ServicesSection />
+                  <AchievementSlider />
                   <ProductSection />
 
                   <Team />
